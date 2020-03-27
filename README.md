@@ -1,107 +1,24 @@
 # NgToast
 
-## Features
+This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.7.
 
-- Toast Component Injection without being passed `ViewContainerRef`
-- Animations using Angular's
+## Code scaffolding
 
-## Dependencies
-Latest version available for each version of Angular
+Run `ng generate component component-name --project ngx-toast` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project ngx-toast`.
+> Note: Don't forget to add `--project ngx-toast` or else it will be added to the default project in your `angular.json` file. 
 
-| ngx-toastr | Angular     |
-|------------|-------------|
-| 6.5.0      | 4.x         |
-| 8.10.2     | 5.x         |
-| 10.1.0     | 8.x 7.x 6.x |
-| 11.3.3     | 8.x         |
-| current    | >= 9.x      |
+## Build
 
-## Install
+Run `ng build ngx-toast` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-```bash
-npm install ng-toast --save
-```
+## Publishing
 
-`@angular/animations` package is a required dependency for the default toast
+After building your library with `ng build ngx-toast`, go to the dist folder `cd dist/ngx-toast` and run `npm publish`.
 
-```bash
-npm install @angular/animations --save
-```
+## Running unit tests
 
-## Setup
+Run `ng test ngx-toast` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-**step 1:** add ToastrModule to app NgModule, make sure you have BrowserAnimationsModule as well
+## Further help
 
-```typescript
-import { CommonModule } from '@angular/common';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-import { ToastrModule } from 'ng-toast';
-
-@NgModule({
-  imports: [
-    CommonModule,
-    BrowserAnimationsModule, // required animations module
-    NgToastModule.forRoot() // ToastrModule added
-  ],
-  bootstrap: [App],
-  declarations: [App]
-})
-class MainModule {}
-```
-
-## Use
-
-```typescript
-import { ToastrService } from 'ng-toast';
-
-@Component({...})
-export class YourComponent {
-  constructor(private toastService: NgToastService) {}
-
-  showToastSuccess() {
-    this.toastr.showToastSuccess('Hello world!', { title: 'Test!' });
-  }
-}
-```
-
-## Options
-
-There are **global options**.
-
-### Global Options
-
-Global options include the following
-options:
-
-| Option      | Type    | Default                         | Description                               |
-|-------------|---------|---------------------------------|-------------------------------------------|
-| title       | string  | null                            | Title for toast message                   |
-| position    | object  | [see below](#position-defaults) | Toast container position                  |
-| duration    | number  | 3000                            | Time to live in milliseconds              |
-| closeButton | boolean | false                           | Show close button                         |
-| tapDismiss  | boolean | false                           | Close on click                            |
-| autoClose   | boolean | false                           | Dismiss current toast when max is reached |
-
-##### position defaults
-
-```typescript
-NgToastPosition {
-    BottomCenter = 0,
-    BottomFullWidth = 1,
-    BottomLeft = 2,
-    BottomRight = 3,
-    TopCenter = 4,
-    TopFullWidth = 5,
-    TopLeft = 6,
-    TopRight = 7
-};
-```
-
-## License
-
-MIT
-
----
-
-> GitLab [@darioegb](https://gitlab.com/darioegb) &nbsp;&middot;&nbsp;
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).

@@ -16,14 +16,14 @@
       "dom"
     ],
     "paths": {
-      "ng-toast": [
-        "dist/ng-toast/ng-toast",
-        "dist/ng-toast"
+      "ngx-toast": [
+        "dist/ngx-toast"
       ]
     }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
-    "strictInjectionParameters": true
+    "strictInjectionParameters": true,
+    "preserveSymlinks": true
   }
 }
