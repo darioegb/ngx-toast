@@ -1,0 +1,16 @@
+<div #toast class="toast-container" [@state]="stateValue">
+    <div class="toast-container-title" *ngIf="titleValue">
+        <div [ngSwitch]="this.config.type" class="toast-container-title-symbol">
+            <div *ngSwitchCase="0"><em class="fas fa-check-circle"></em></div>
+            <div *ngSwitchCase="1"><em class="fas fa-exclamation-circle"></em></div>
+            <div *ngSwitchCase="2"><em class="fas fa-exclamation-triangle"></em></div>
+            <div *ngSwitchCase="3"><em class="fas fa-times-circle"></em></div>
+            <div *ngSwitchDefault></div>
+        </div>
+        <h1>{{ titleValue | titlecase}}</h1>
+        <button (click)="closed.next()" [hidden]="!config.closeButton">&#x2716;</button>
+    </div>
+    <div class="toast-container-body">
+        <span>{{ messageValue }}</span>
+    </div>
+</div>

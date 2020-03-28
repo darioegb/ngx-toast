@@ -101,10 +101,6 @@ NgToastPosition {
 };
 ```
 
-## Test
-
-Ngx-toastf-showcase is the testing project. Use ng s to run it.
-
 ## License
 
 MIT

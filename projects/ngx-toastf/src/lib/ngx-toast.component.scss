@@ -1,0 +1,52 @@
+:host {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    z-index: -1;
+    .toast-container {
+        background: #009cff;
+        font-weight: bold;
+        color: #ffffff;
+        padding: 16px;
+        font-size: 16px;
+        display: flex;
+        flex-direction: column;
+        min-width: 200px;
+        &-title {
+            justify-content: flex-start;
+            h1 {
+                font-size: 20px;
+                margin-left: 1rem;
+            }
+        }
+        &-body,
+        &-title {
+            display: flex;
+            align-items: center;
+            &-symbol {
+                font-size: 20px;
+            }
+        }
+        &-body {
+            margin-block-start: .25rem;
+        }
+        button {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            font-family: sans-serif, Arial, Helvetica, sans-serif;
+            font-size: 1rem;
+            color: #ffffff;
+            font-weight: lighter;
+            background-color: transparent;
+            padding: 0;
+            border: none;
+        }
+    }
+}
