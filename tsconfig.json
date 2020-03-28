@@ -16,8 +16,8 @@
       "dom"
     ],
     "paths": {
-      "ngx-toast": [
-        "dist/ngx-toast"
+      "ngx-toastf": [
+        "dist/ngx-toastf"
       ]
     }
   },

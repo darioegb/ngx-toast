@@ -1,4 +1,4 @@
-# NgToast
+# NgxToastf
 
 ## Features
 
@@ -8,14 +8,14 @@
 ## Dependencies
 Latest version available for each version of Angular
 
-| ngx-toast  | Angular     |
+| ngx-toastf  | Angular     |
 |------------|-------------|
 | 1.0.0      | 9.x 8.x 7.x |
 
 ## Install
 
 ```bash
-npm install ngx-toast --save
+npm install ngx-toastf --save
 ```
 
 `@angular/animations` package is a required dependency for the default toast
@@ -32,7 +32,7 @@ npm install @angular/animations --save
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { ToastrModule } from 'ngx-toast';
+import { ToastrModule } from 'ngx-toastf';
 
 @NgModule({
   imports: [
@@ -50,13 +50,13 @@ class MainModule {}
 ```typescript
 "styles": [
   // other styles
-  "./node_modules/ngx-toast/src/assets/fontawesome-5.12.1/css/all.min.css"
+  "./node_modules/ngx-toastf/src/assets/fontawesome-5.12.1/css/all.min.css"
 ],
 ```
 ## Use
 
 ```typescript
-import { ToastrService } from 'ngx-toast';
+import { ToastrService } from 'ngx-toastf';
 
 @Component({...})
 export class YourComponent {
