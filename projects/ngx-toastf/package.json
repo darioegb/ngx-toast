@@ -1,9 +1,25 @@
 {
     "name": "ngx-toastf",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "peerDependencies": {
         "@angular/common": "^9.0.7",
         "@angular/core": "^9.0.7",
         "tslib": "^1.10.0"
-    }
+    },
+    "author": {
+        "name": "Dario E Gonzalez B",
+        "email": "darioegb@gmail.com"
+    },
+    "description": "A package to show toast alert in angular apps",
+    "keywords": [
+        "ngx-toast",
+        "ng-alert",
+        "dynamic component",
+        "angular toast"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://gitlab.com/darioegb/ngx-toast/"
+    },
+    "license": "MIT"
 }
