@@ -8,7 +8,7 @@
 ## Dependencies
 Latest version available for each version of Angular
 
-| ngx-toastf  | Angular     |
+| ngx-toastf | Angular     |
 |------------|-------------|
 | 1.0.0      | 9.x 8.x 7.x |
 
@@ -97,9 +97,41 @@ NgToastPosition {
     TopCenter = 4,
     TopFullWidth = 5,
     TopLeft = 6,
-    TopRight = 7
+    TopRight = 7,
+    Center = 8
 };
 ```
+
+## Styles
+
+### Global Styles
+
+| Class                 | Description                               |
+|-----------------------|-------------------------------------------|
+| toast-container       | Toast container                           |
+| toast-container-title | Toast container title, and symbol         |
+| toast-container-body  | Toast container for message               |
+
+
+### Toast type styles
+  For customizations styles you can overwrite those classes:
+  
+  * .toast-container-success
+  * .toast-container-info
+  * .toast-container-warning
+  * .toast-container-error
+
+  ```scss
+    .toast-container {
+      &-success {
+        background-color: green !important;
+      }
+      &-error {
+        background-color: pink !important;
+      }
+  }
+  ```
+
 
 ## License
 

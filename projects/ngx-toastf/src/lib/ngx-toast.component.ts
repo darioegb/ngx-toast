@@ -3,6 +3,7 @@ import { translateYAnimation } from './ngx-toast-animations';
 import { NgToastConfig } from './ngx-toast-config.model';
 import { NgToastPosition } from './ngx-toast-position.enum';
 import { NgToastType } from './ngx-toast-type.enum';
+import { toastStates, flexPositions, typeConfigClasses } from './ngx-toast-constant';
 
 @Component({
   selector: 'lib-ngx-toastf',
@@ -17,13 +18,12 @@ export class NgToastComponent implements OnInit, AfterViewInit {
   @Input()
   set messageValue(message: string) {
     this.message = message;
-    this.state = 'opened';
+    this.state = toastStates.opened;
   }
   get messageValue(): string { return this.message; }
   @Input()
   set titleValue(title: string) {
     this.title = title;
-    this.state = 'opened';
   }
   get titleValue(): string { return this.title; }
   get stateValue(): string { return this.state; }
@@ -32,27 +32,12 @@ export class NgToastComponent implements OnInit, AfterViewInit {
   @Output() closed: EventEmitter<boolean> = new EventEmitter();
   @ViewChild('toast', { static: false }) toast: ElementRef;
 
-  private state: 'opened' | 'closed' = 'closed';
+  private state = toastStates.closed;
   private message: string;
   private title: string;
   private componentRef: any;
   private toastElementRef: HTMLElement;
-  private positionConfig = {
-    [NgToastPosition.BottomCenter]: 'center',
-    [NgToastPosition.BottomFullWidth]: 'stretch',
-    [NgToastPosition.BottomLeft]: 'flex-start',
-    [NgToastPosition.BottomRight]: 'flex-end',
-    [NgToastPosition.TopCenter]: 'center',
-    [NgToastPosition.TopFullWidth]: 'stretch',
-    [NgToastPosition.TopLeft]: 'flex-start',
-    [NgToastPosition.TopRight]: 'flex-end'
-  };
-  private typeConfig = {
-    [NgToastType.Success]: 'mediumseagreen',
-    [NgToastType.Info]: 'dodgerblue',
-    [NgToastType.Warning]: 'orange',
-    [NgToastType.Error]: 'red'
-  };
+  private typeConfig = typeConfigClasses;
   private bottomPositions = [
     NgToastPosition.BottomCenter,
     NgToastPosition.BottomFullWidth,
@@ -61,7 +46,6 @@ export class NgToastComponent implements OnInit, AfterViewInit {
   ];
 
   constructor() { }
-
 
   ngOnInit(): void {
     if (this.config.autoClose) {
@@ -90,16 +74,37 @@ export class NgToastComponent implements OnInit, AfterViewInit {
   }
 
   private setPosition() {
+    let position: string;
     if (this.bottomPositions.indexOf(this.config.position) !== -1) {
-      this.componentRef.style.justifyContent = 'flex-end';
+      this.componentRef.style.justifyContent = flexPositions.flexEnd;
+    } else if (this.config.position === NgToastPosition.Center) {
+      this.componentRef.style.justifyContent = flexPositions.center;
     } else {
-      this.componentRef.style.justifyContent = 'flex-start';
+      this.componentRef.style.justifyContent = flexPositions.flexStart;
     }
-    this.componentRef.style.alignItems = this.positionConfig[this.config.position];
+    switch (this.config.position) {
+      case NgToastPosition.BottomCenter:
+      case NgToastPosition.TopCenter:
+      case NgToastPosition.Center:
+        position = flexPositions.center;
+        break;
+      case NgToastPosition.BottomFullWidth:
+      case NgToastPosition.TopFullWidth:
+        position = flexPositions.stretch;
+        break;
+      case NgToastPosition.BottomLeft:
+      case NgToastPosition.TopLeft:
+        position = flexPositions.flexStart;
+        break;
+      default:
+        position = flexPositions.flexEnd;
+        break;
+    }
+    this.componentRef.style.alignItems = position;
   }
 
   private setType() {
-    this.toastElementRef.style.backgroundColor = this.typeConfig[this.config.type];
+    this.toastElementRef.classList.add(this.typeConfig[this.config.type]);
   }
 
 }
