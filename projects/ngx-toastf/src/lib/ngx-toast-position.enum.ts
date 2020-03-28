@@ -6,5 +6,6 @@ export enum NgToastPosition {
     TopCenter = 4,
     TopFullWidth = 5,
     TopLeft = 6,
-    TopRight = 7
+    TopRight = 7,
+    Center = 8
 }

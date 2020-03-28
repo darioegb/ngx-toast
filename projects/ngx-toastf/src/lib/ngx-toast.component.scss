@@ -10,7 +10,6 @@
     align-items: flex-start;
     z-index: -1;
     .toast-container {
-        background: #009cff;
         font-weight: bold;
         color: #ffffff;
         padding: 16px;
@@ -47,6 +46,18 @@
             background-color: transparent;
             padding: 0;
             border: none;
+        }
+        &-success {
+            background-color: mediumseagreen;
+        }
+        &-info {
+            background-color: dodgerblue;
+        }
+        &-warning {
+            background-color: orange;
+        }
+        &-error {
+            background-color: red;
         }
     }
 }
