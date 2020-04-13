@@ -1,15 +1,15 @@
 :host {
     position: absolute;
     top: 0;
-    left: 0;
+    right: 0;
     height: 100%;
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    z-index: -1;
     .toast-container {
+        z-index: 1000;
         font-weight: bold;
         color: #ffffff;
         padding: 16px;
@@ -18,7 +18,10 @@
         flex-direction: column;
         min-width: 200px;
         &-title {
-            justify-content: flex-start;
+            justify-content: space-between;
+            div:first-child {
+                display: flex;
+            }
             h1 {
                 font-size: 20px;
                 margin-left: 1rem;
@@ -30,6 +33,7 @@
             align-items: center;
             &-symbol {
                 font-size: 20px;
+                align-self: center;
             }
         }
         &-body {
@@ -39,7 +43,7 @@
             appearance: none;
             -webkit-appearance: none;
             -moz-appearance: none;
-            font-family: sans-serif, Arial, Helvetica, sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
             font-size: 1rem;
             color: #ffffff;
             font-weight: lighter;
