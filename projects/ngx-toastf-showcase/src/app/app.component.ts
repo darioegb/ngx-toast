@@ -13,18 +13,18 @@ export class AppComponent {
   ) {}
 
   showToastSuccess(value): void {
-    this.toastService.showToastSuccess(value, {autoClose: true, title: 'test'});
+    this.toastService.showToastSuccess(value, {closeButton: true, title: 'test'});
   }
 
   showToastInfo(value): void {
-    this.toastService.showToastInfo(value, {autoClose: true});
+    this.toastService.showToastInfo(value);
   }
 
   showToastWarning(value): void {
-    this.toastService.showToastWarning(value, {autoClose: true});
+    this.toastService.showToastWarning(value);
   }
 
   showToastError(value): void {
-    this.toastService.showToastError(value, {autoClose: true});
+    this.toastService.showToastError(value);
   }
 }

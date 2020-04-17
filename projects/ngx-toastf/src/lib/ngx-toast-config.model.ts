@@ -25,6 +25,6 @@ export class NgToastConfig {
         this.type = options.type;
         this.closeButton = options.closeButton || false;
         this.tapDismiss = options.tapDismiss || false;
-        this.autoClose = options.autoClose || false;
+        this.autoClose = options.autoClose !== undefined ? options.autoClose : true;
     }
 }
