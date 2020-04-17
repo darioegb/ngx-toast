@@ -2,7 +2,6 @@ import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, 
 import { translateYAnimation } from './ngx-toast-animations';
 import { NgToastConfig } from './ngx-toast-config.model';
 import { NgToastPosition } from './ngx-toast-position.enum';
-import { NgToastType } from './ngx-toast-type.enum';
 import { toastStates, flexPositions, typeConfigClasses } from './ngx-toast-constant';
 
 @Component({
@@ -69,7 +68,9 @@ export class NgToastComponent implements OnInit, AfterViewInit {
 
   private onAutoClose() {
     setTimeout(() => {
-      this.closed.emit();
+      if (document.querySelector('toast-component')) {
+        this.closed.emit();
+      }
     }, this.config.duration);
   }
 
