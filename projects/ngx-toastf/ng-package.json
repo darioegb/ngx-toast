@@ -2,8 +2,8 @@
     "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
     "dest": "../../dist/ngx-toastf",
     "assets": [
-        "./src/assets/fontawesome-5.12.1/webfonts/*",
-        "./src/assets/fontawesome-5.12.1/css/all.min.css"
+        "./src/assets/fontello/font/*",
+        "./src/assets/fontello/css/all.min.css"
     ],
     "lib": {
         "entryFile": "src/public-api.ts"

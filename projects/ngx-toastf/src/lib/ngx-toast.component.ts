@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, 
 import { translateYAnimation } from './ngx-toast-animations';
 import { NgToastConfig } from './ngx-toast-config.model';
 import { NgToastPosition } from './ngx-toast-position.enum';
-import { toastStates, flexPositions, typeConfigClasses } from './ngx-toast-constant';
+import { toastStates, positions, typeConfigClasses } from './ngx-toast-constant';
 
 @Component({
   selector: 'lib-ngx-toastf',
@@ -75,33 +75,35 @@ export class NgToastComponent implements OnInit, AfterViewInit {
   }
 
   private setPosition() {
-    let position: string;
     if (this.bottomPositions.indexOf(this.config.position) !== -1) {
-      this.componentRef.style.justifyContent = flexPositions.flexEnd;
+      this.componentRef.style.bottom = positions.none;
     } else if (this.config.position === NgToastPosition.Center) {
-      this.componentRef.style.justifyContent = flexPositions.center;
+      this.componentRef.style.top = positions.halfSide;
+      this.componentRef.style.left = positions.halfSide;
     } else {
-      this.componentRef.style.justifyContent = flexPositions.flexStart;
+      this.componentRef.style.top = positions.none;
     }
     switch (this.config.position) {
       case NgToastPosition.BottomCenter:
       case NgToastPosition.TopCenter:
-      case NgToastPosition.Center:
-        position = flexPositions.center;
+        this.componentRef.style.left = positions.halfSide;
         break;
       case NgToastPosition.BottomFullWidth:
       case NgToastPosition.TopFullWidth:
-        position = flexPositions.stretch;
+        this.componentRef.style.left = positions.none;
+        this.componentRef.style.right = positions.none;
         break;
       case NgToastPosition.BottomLeft:
       case NgToastPosition.TopLeft:
-        position = flexPositions.flexStart;
+        this.componentRef.style.left = positions.none;
+        break;
+      case NgToastPosition.BottomRight:
+      case NgToastPosition.TopRight:
+        this.componentRef.style.right = positions.none;
         break;
       default:
-        position = flexPositions.flexEnd;
         break;
     }
-    this.componentRef.style.alignItems = position;
   }
 
   private setType() {

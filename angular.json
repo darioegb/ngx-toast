@@ -70,7 +70,7 @@
                         ],
                         "styles": [
                             "projects/ngx-toastf-showcase/src/styles.scss",
-                            "projects/ngx-toastf/src/assets/fontawesome-5.12.1/css/all.min.css"
+                            "projects/ngx-toastf/src/assets/fontello/css/all.min.css"
                         ],
                         "scripts": []
                     },
