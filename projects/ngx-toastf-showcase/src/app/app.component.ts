@@ -10,21 +10,21 @@ export class AppComponent {
   title: 'testApp';
   constructor(
     private toastService: NgToastService
-  ) {}
+  ) { }
 
   showToastSuccess(value): void {
-    this.toastService.showToastSuccess(value, {closeButton: true, title: 'test'});
+    this.toastService.showToastSuccess(value, { closeButton: true, title: 'test' });
   }
 
   showToastInfo(value): void {
-    this.toastService.showToastInfo(value);
+    this.toastService.showToastInfo(value, { closeButton: true, title: 'test' });
   }
 
   showToastWarning(value): void {
-    this.toastService.showToastWarning(value);
+    this.toastService.showToastWarning(value, { closeButton: true, title: 'test' });
   }
 
   showToastError(value): void {
-    this.toastService.showToastError(value);
+    this.toastService.showToastError(value, { closeButton: true, title: 'test' });
   }
 }

@@ -5,11 +5,9 @@ export const toastStates = {
     closed: 'closed'
 };
 
-export const flexPositions = {
-    center: 'center',
-    stretch: 'stretch',
-    flexStart: 'flex-start',
-    flexEnd: 'flex-end'
+export const positions = {
+    none: 0,
+    halfSide: '50%'
 };
 
 export const typeConfigClasses = {

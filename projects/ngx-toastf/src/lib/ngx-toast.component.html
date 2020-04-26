@@ -2,10 +2,10 @@
     <div class="toast-container-title" *ngIf="titleValue">
         <div>
             <div [ngSwitch]="this.config.type" class="toast-container-title-symbol">
-                <div *ngSwitchCase="0"><em class="fas fa-check-circle"></em></div>
-                <div *ngSwitchCase="1"><em class="fas fa-exclamation-circle"></em></div>
-                <div *ngSwitchCase="2"><em class="fas fa-exclamation-triangle"></em></div>
-                <div *ngSwitchCase="3"><em class="fas fa-times-circle"></em></div>
+                <div *ngSwitchCase="0"><em class="icon-ok-circled"></em></div>
+                <div *ngSwitchCase="1"><em class="icon-info-circled"></em></div>
+                <div *ngSwitchCase="2"><em class="icon-attention"></em></div>
+                <div *ngSwitchCase="3"><em class="icon-cancel-circled"></em></div>
                 <div *ngSwitchDefault></div>
             </div>
             <h1>{{ titleValue | titlecase}}</h1>

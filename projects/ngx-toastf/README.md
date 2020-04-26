@@ -46,11 +46,11 @@ import { ToastrModule } from 'ngx-toastf';
 class MainModule {}
 ```
 
-**step 2:** Add fontawesome to angular.json file in styles array
+**step 2:** Add icons styles to angular.json file in styles array
 ```typescript
 "styles": [
   // other styles
-  "./node_modules/ngx-toastf/src/assets/fontawesome-5.12.1/css/all.min.css"
+  "./node_modules/ngx-toastf/src/assets/fontello/css/all.min.css"
 ],
 ```
 ## Use
@@ -84,7 +84,7 @@ options:
 | duration    | number  | 3000                            | Time to live in milliseconds              |
 | closeButton | boolean | false                           | Show close button                         |
 | tapDismiss  | boolean | false                           | Close on click                            |
-| autoClose   | boolean | false                           | Dismiss current toast when max is reached |
+| autoClose   | boolean | true                            | Dismiss current toast when max is reached |
 
 ##### position defaults
 
