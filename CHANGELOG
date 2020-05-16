@@ -6,17 +6,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.0.1] - 2020-03-28
+## [1.2.0] - 2020-05-16
 ### Added
-- Create first library version
-
-## [1.1.2] - 2020-04-12
-### Added
-- Add autoclose default
-- Fix some minor bugs
+- Fix bug cant import ToastPosition enum 
 
 ## [1.2.0] - 2020-04-26
 ### Added
 - Remove fontawensome icons 
 - Add fontello icons
 - Change positioning style non block view actions.
+
+## [1.1.2] - 2020-04-12
+### Added
+- Add autoclose default
+- Fix some minor bugs
+
+## [1.0.1] - 2020-03-28
+### Added
+- Create first library version
