@@ -7,7 +7,7 @@ import { NgToastService } from '../../../ngx-toastf/src/lib/ngx-toast.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title: 'testApp';
+  title = 'ngx-toastf-showcase';
   constructor(
     private toastService: NgToastService
   ) { }

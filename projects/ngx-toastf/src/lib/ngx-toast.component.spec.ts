@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NgToastComponent } from './ngx-toast.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('NgToastComponent', () => {
   let component: NgToastComponent;
@@ -8,7 +9,10 @@ describe('NgToastComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NgToastComponent ]
+      declarations: [ NgToastComponent ],
+      imports: [
+        BrowserAnimationsModule
+      ]
     })
     .compileComponents();
   }));

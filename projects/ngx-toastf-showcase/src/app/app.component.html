@@ -1,7 +1,12 @@
-<input #input value="Message">
-<div>
-    <button (click)="showToastSuccess(input.value)">Create success toast</button>
-    <button (click)="showToastInfo(input.value)">Create info toast</button>
-    <button (click)="showToastWarning(input.value)">Create warning toast</button>
-    <button (click)="showToastError(input.value)">Create error toast</button>
+<div class="col-lg-10">
+    <h1>{{ title }} app is running!</h1>
+    <div class="form-group">
+        <input type="text" #input value="Message" class="form-control">
+    </div>
+    <div class="btn-group">
+        <button (click)="showToastSuccess(input.value)" class="btn btn-success">Create success toast</button>
+        <button (click)="showToastInfo(input.value)" class="btn btn-info">Create info toast</button>
+        <button (click)="showToastWarning(input.value)" class="btn btn-warning">Create warning toast</button>
+        <button (click)="showToastError(input.value)" class="btn btn-danger">Create error toast</button>
+    </div>
 </div>

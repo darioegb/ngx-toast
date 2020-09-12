@@ -27,7 +27,7 @@ export class NgToastComponent implements OnInit, AfterViewInit {
   get titleValue(): string { return this.title; }
   get stateValue(): string { return this.state; }
 
-  @Input() config: NgToastConfig;
+  @Input() config: NgToastConfig = new NgToastConfig();
   @Output() closed: EventEmitter<boolean> = new EventEmitter();
   @ViewChild('toast', { static: false }) toast: ElementRef;
 

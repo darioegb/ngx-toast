@@ -12,6 +12,10 @@ Latest version available for each version of Angular
 |------------|-------------|
 | 1.0.0      | 9.x 8.x 7.x |
 
+## Live Example
+You can check how these library work in the next link, on live example:
+https://stackblitz.com/edit/ngx-toastf-example
+
 ## Install
 
 ```bash
