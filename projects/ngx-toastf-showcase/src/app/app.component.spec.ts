@@ -1,4 +1,10 @@
-import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+import {
+  TestBed,
+  async,
+  ComponentFixture,
+  fakeAsync,
+  tick,
+} from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -10,16 +16,9 @@ describe('AppComponent', () => {
   let service: NgToastService;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        BrowserAnimationsModule
-      ],
-      declarations: [
-        AppComponent
-      ],
-      providers: [
-        NgToastService
-      ]
+      imports: [RouterTestingModule, BrowserAnimationsModule],
+      declarations: [AppComponent],
+      providers: [NgToastService],
     }).compileComponents();
   }));
 
@@ -29,7 +28,6 @@ describe('AppComponent', () => {
     service = TestBed.inject(NgToastService);
     fixture.detectChanges();
   });
-
 
   it('should create the app', () => {
     expect(component).toBeTruthy();
@@ -41,14 +39,76 @@ describe('AppComponent', () => {
 
   it('should render title', () => {
     const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('ngx-toastf-showcase app is running!');
+    expect(compiled.querySelector('h1').textContent).toContain(
+      'ngx-toastf-showcase app is running!'
+    );
   });
 
   it('should create toast success', () => {
     const message = 'success message';
-      component.showToastSuccess(message);
-      fixture.detectChanges();
-      const dbEl = <HTMLElement>fixture.debugElement.parent.nativeElement;
-      expect(dbEl.querySelector('toast-component .toast-container-body span').textContent).toContain(message);
+    component.showToastSuccess(message, 1);
+    fixture.detectChanges();
+    const dbEl = <HTMLElement>fixture.debugElement.parent.nativeElement;
+    expect(
+      dbEl.querySelector('toast-component .toast-container-body span')
+        .textContent
+    ).toContain(message);
+    component.showToastSuccess(message);
+    fixture.detectChanges();
+    expect(
+      dbEl.querySelector('toast-component .toast-container-body span')
+        .textContent
+    ).toContain(message);
+  });
+
+  it('should create toast info', () => {
+    const message = 'info message';
+    component.showToastInfo(message, 1);
+    fixture.detectChanges();
+    const dbEl = <HTMLElement>fixture.debugElement.parent.nativeElement;
+    expect(
+      dbEl.querySelector('toast-component .toast-container-body span')
+        .textContent
+    ).toContain(message);
+    component.showToastInfo(message);
+    fixture.detectChanges();
+    expect(
+      dbEl.querySelector('toast-component .toast-container-body span')
+        .textContent
+    ).toContain(message);
+  });
+
+  it('should create toast warning', () => {
+    const message = 'warning message';
+    component.showToastWarning(message, 1);
+    fixture.detectChanges();
+    const dbEl = <HTMLElement>fixture.debugElement.parent.nativeElement;
+    expect(
+      dbEl.querySelector('toast-component .toast-container-body span')
+        .textContent
+    ).toContain(message);
+    component.showToastWarning(message);
+    fixture.detectChanges();
+    expect(
+      dbEl.querySelector('toast-component .toast-container-body span')
+        .textContent
+    ).toContain(message);
+  });
+
+  it('should create toast error', () => {
+    const message = 'error message';
+    component.showToastError(message, 1);
+    fixture.detectChanges();
+    const dbEl = <HTMLElement>fixture.debugElement.parent.nativeElement;
+    expect(
+      dbEl.querySelector('toast-component .toast-container-body span')
+        .textContent
+    ).toContain(message);
+    component.showToastError(message);
+    fixture.detectChanges();
+    expect(
+      dbEl.querySelector('toast-component .toast-container-body span')
+        .textContent
+    ).toContain(message);
   });
 });

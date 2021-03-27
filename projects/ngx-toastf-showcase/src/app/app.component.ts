@@ -12,19 +12,19 @@ export class AppComponent {
     private toastService: NgToastService
   ) { }
 
-  showToastSuccess(value): void {
-    this.toastService.showToastSuccess(value, { closeButton: true, title: 'test' });
+  showToastSuccess(value, duration = 3000): void {
+    this.toastService.showToastSuccess(value, { closeButton: true, title: 'test', duration });
   }
 
-  showToastInfo(value): void {
-    this.toastService.showToastInfo(value, { closeButton: true, title: 'test' });
+  showToastInfo(value, duration = 3000): void {
+    this.toastService.showToastInfo(value, { closeButton: true, title: 'test', duration });
   }
 
-  showToastWarning(value): void {
-    this.toastService.showToastWarning(value, { closeButton: true, title: 'test' });
+  showToastWarning(value, duration = 3000): void {
+    this.toastService.showToastWarning(value, { closeButton: true, title: 'test', duration });
   }
 
-  showToastError(value): void {
-    this.toastService.showToastError(value, { closeButton: true, title: 'test' });
+  showToastError(value, duration = 3000): void {
+    this.toastService.showToastError(value, { closeButton: true, title: 'test', duration });
   }
 }
