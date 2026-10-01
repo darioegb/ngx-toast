@@ -1,12 +1,18 @@
-import { NgModule } from '@angular/core';
-import { NgToastComponent } from './ngx-toast.component';
-import { CommonModule } from '@angular/common';
+import { ModuleWithProviders, NgModule } from '@angular/core'
+import { NgxToastConfig } from './ngx-toast-config.model'
+import { provideNgxToast, withToastConfig } from './provide-ngx-toast'
 
-@NgModule({
-  declarations: [NgToastComponent],
-  imports: [
-    CommonModule
-  ],
-  entryComponents: [NgToastComponent]
-})
-export class NgToastModule { }
+/**
+ * @deprecated Use `provideNgxToast()` instead. Will be removed in a future major version.
+ */
+@NgModule({})
+export class NgxToastModule {
+  static forRoot(config?: NgxToastConfig): ModuleWithProviders<NgxToastModule> {
+    return {
+      ngModule: NgxToastModule,
+      providers: config
+        ? provideNgxToast(withToastConfig(config))
+        : provideNgxToast(),
+    }
+  }
+}

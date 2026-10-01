@@ -1,7 +1,12 @@
-<input #input value="Message">
+<input [ngModel]="message()" (ngModelChange)="message.set($event)" />
+<select [ngModel]="position()" (ngModelChange)="position.set($event)">
+  @for (pos of positions; track pos) {
+    <option [value]="pos">{{ pos }}</option>
+  }
+</select>
 <div>
-    <button (click)="showToastSuccess(input.value)">Create success toast</button>
-    <button (click)="showToastInfo(input.value)">Create info toast</button>
-    <button (click)="showToastWarning(input.value)">Create warning toast</button>
-    <button (click)="showToastError(input.value)">Create error toast</button>
+  <button (click)="showToastSuccess()">Create success toast</button>
+  <button (click)="showToastInfo()">Create info toast</button>
+  <button (click)="showToastWarning()">Create warning toast</button>
+  <button (click)="showToastError()">Create error toast</button>
 </div>

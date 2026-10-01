@@ -1,0 +1,10 @@
+dist/
+coverage/
+out-tsc/
+.angular/
+pnpm-lock.yaml
+CHANGELOG.md
+docs/build/
+docs/.docusaurus/
+docs/node_modules/
+docs/pnpm-lock.yaml
