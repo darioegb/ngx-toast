@@ -1,25 +1,30 @@
 {
-    "name": "ngx-toastf",
-    "version": "1.2.1",
-    "peerDependencies": {
-        "@angular/common": "^9.0.7",
-        "@angular/core": "^9.0.7",
-        "tslib": "^1.10.0"
-    },
-    "author": {
-        "name": "Dario E Gonzalez B",
-        "email": "darioegb@gmail.com"
-    },
-    "description": "A package to show toast alert in angular apps",
-    "keywords": [
-        "ngx-toast",
-        "ng-alert",
-        "dynamic component",
-        "angular toast"
-    ],
-    "repository": {
-        "type": "git",
-        "url": "https://gitlab.com/darioegb/ngx-toast/"
-    },
-    "license": "MIT"
+  "name": "ngx-toastf",
+  "version": "1.2.1",
+  "sideEffects": false,
+  "peerDependencies": {
+    "@angular/common": "^20.0.0 || ^21.0.0 || ^22.0.0",
+    "@angular/core": "^20.0.0 || ^21.0.0 || ^22.0.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "author": {
+    "name": "Dario E Gonzalez B",
+    "email": "darioegb@gmail.com"
+  },
+  "description": "A lightweight, standalone-first toast notification library for Angular apps",
+  "keywords": [
+    "ngx-toast",
+    "ngx-toastf",
+    "ng-alert",
+    "angular toast",
+    "angular notifications",
+    "standalone"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/darioegb/ngx-toast/"
+  },
+  "license": "MIT"
 }

@@ -1,35 +1,24 @@
-import { TestBed, async } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { AppComponent } from './app.component';
+import { TestBed } from '@angular/core/testing'
+import { provideRouter } from '@angular/router'
+import { AppComponent } from './app.component'
 
 describe('AppComponent', () => {
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule
-      ],
-      declarations: [
-        AppComponent
-      ],
-    }).compileComponents();
-  }));
+      imports: [AppComponent],
+      providers: [provideRouter([])],
+    })
+  })
 
   it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
-  });
+    const fixture = TestBed.createComponent(AppComponent)
+    expect(fixture.componentInstance).toBeTruthy()
+  })
 
-  it(`should have as title 'ngx-toastf-showcase'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('ngx-toastf-showcase');
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('ngx-toastf-showcase app is running!');
-  });
-});
+  it('should render the toast trigger buttons', () => {
+    const fixture = TestBed.createComponent(AppComponent)
+    fixture.detectChanges()
+    const buttons = fixture.nativeElement.querySelectorAll('button')
+    expect(buttons.length).toBe(4)
+  })
+})

@@ -1,0 +1,111 @@
+name: CI
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - main
+      - develop
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  test_lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ github.token }}
+      - uses: ./.github/actions/setup
+      - name: Run linting
+        run: pnpm lint
+      - name: Check formatting
+        run: pnpm format:check
+
+  test_unit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ github.token }}
+      - uses: ./.github/actions/setup
+      - name: Run library unit tests
+        run: pnpm test:lib
+      - name: Upload coverage
+        uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: '${{ github.job }}'
+          path: coverage/
+
+  sonarcloud_check:
+    name: SonarCloud
+    runs-on: ubuntu-latest
+    needs: [test_lint, test_unit]
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
+    env:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ github.token }}
+      - uses: actions/cache@v5
+        with:
+          path: |-
+            node_modules/
+            .sonar/cache
+          key: '${{ github.job }}'
+      - uses: actions/download-artifact@v4
+        with:
+          name: test_unit
+      - name: SonarCloud Scan
+        # PRs from bots (e.g. Copilot coding agent) don't get repo secrets, so this
+        # step is skipped there; SONAR_TOKEN resolves to empty.
+        if: env.SONAR_TOKEN != ''
+        uses: SonarSource/sonarqube-scan-action@22918119ff8e1ca75a623e15c8296b6ea4fbe28f # v8.2.1
+        env:
+          SONAR_HOST_URL: https://sonarcloud.io
+
+  release:
+    runs-on: ubuntu-latest
+    needs: [test_lint, test_unit]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          # semantic-release pushes the release commit/tag straight to main - PAT_TOKEN
+          # bypasses branch protection if needed. secrets.GITHUB_TOKEN works too if main
+          # has no protection rule blocking the default token.
+          token: ${{ secrets.PAT_TOKEN }}
+      - uses: ./.github/actions/setup
+        with:
+          registry-url: 'https://registry.npmjs.org'
+      - name: Build package for semantic-release
+        run: pnpm ng build ngx-toastf
+      - run: pnpm exec semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          # @semantic-release/git's release commit body embeds the full changelog notes
+          # (long markdown links), which fails commitlint's line-length rules via the
+          # local commit-msg husky hook meant to police human-authored commits, not this
+          # generated one - skip it here rather than relaxing commitlint for real commits.
+          HUSKY: 0

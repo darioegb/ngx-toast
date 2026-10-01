@@ -1,168 +1,161 @@
 {
-    "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-    "version": 1,
-    "newProjectRoot": "projects",
-    "projects": {
-        "ngx-toastf": {
-            "projectType": "library",
-            "root": "projects/ngx-toastf",
-            "sourceRoot": "projects/ngx-toastf/src",
-            "prefix": "lib",
-            "architect": {
-                "build": {
-                    "builder": "@angular-devkit/build-ng-packagr:build",
-                    "options": {
-                        "tsConfig": "projects/ngx-toastf/tsconfig.lib.json",
-                        "project": "projects/ngx-toastf/ng-package.json"
-                    },
-                    "configurations": {
-                        "production": {
-                            "tsConfig": "projects/ngx-toastf/tsconfig.lib.prod.json"
-                        }
-                    }
-                },
-                "test": {
-                    "builder": "@angular-devkit/build-angular:karma",
-                    "options": {
-                        "main": "projects/ngx-toastf/src/test.ts",
-                        "tsConfig": "projects/ngx-toastf/tsconfig.spec.json",
-                        "karmaConfig": "projects/ngx-toastf/karma.conf.js"
-                    }
-                },
-                "lint": {
-                    "builder": "@angular-devkit/build-angular:tslint",
-                    "options": {
-                        "tsConfig": [
-                            "projects/ngx-toastf/tsconfig.lib.json",
-                            "projects/ngx-toastf/tsconfig.spec.json"
-                        ],
-                        "exclude": [
-                            "**/node_modules/**"
-                        ]
-                    }
-                }
-            }
-        },
-        "ngx-toastf-showcase": {
-            "projectType": "application",
-            "schematics": {
-                "@schematics/angular:component": {
-                    "style": "scss"
-                }
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "ngx-toastf": {
+      "projectType": "library",
+      "root": "projects/ngx-toastf",
+      "sourceRoot": "projects/ngx-toastf/src",
+      "prefix": "ngx",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "options": {
+            "tsConfig": "projects/ngx-toastf/tsconfig.lib.json",
+            "project": "projects/ngx-toastf/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngx-toastf/tsconfig.lib.prod.json"
             },
-            "root": "projects/ngx-toastf-showcase",
-            "sourceRoot": "projects/ngx-toastf-showcase/src",
-            "prefix": "app",
-            "architect": {
-                "build": {
-                    "builder": "@angular-devkit/build-angular:browser",
-                    "options": {
-                        "outputPath": "dist/ngx-toastf-showcase",
-                        "index": "projects/ngx-toastf-showcase/src/index.html",
-                        "main": "projects/ngx-toastf-showcase/src/main.ts",
-                        "polyfills": "projects/ngx-toastf-showcase/src/polyfills.ts",
-                        "preserveSymlinks": true,
-                        "tsConfig": "projects/ngx-toastf-showcase/tsconfig.app.json",
-                        "aot": false,
-                        "assets": [
-                            "projects/ngx-toastf-showcase/src/favicon.ico",
-                            "projects/ngx-toastf-showcase/src/assets"
-                        ],
-                        "styles": [
-                            "projects/ngx-toastf-showcase/src/styles.scss",
-                            "projects/ngx-toastf/src/assets/fontello/css/all.min.css"
-                        ],
-                        "scripts": []
-                    },
-                    "configurations": {
-                        "production": {
-                            "fileReplacements": [{
-                                "replace": "projects/ngx-toastf-showcase/src/environments/environment.ts",
-                                "with": "projects/ngx-toastf-showcase/src/environments/environment.prod.ts"
-                            }],
-                            "optimization": true,
-                            "outputHashing": "all",
-                            "sourceMap": false,
-                            "extractCss": true,
-                            "namedChunks": false,
-                            "extractLicenses": true,
-                            "vendorChunk": false,
-                            "buildOptimizer": true,
-                            "budgets": [{
-                                    "type": "initial",
-                                    "maximumWarning": "2mb",
-                                    "maximumError": "5mb"
-                                },
-                                {
-                                    "type": "anyComponentStyle",
-                                    "maximumWarning": "6kb",
-                                    "maximumError": "10kb"
-                                }
-                            ]
-                        }
-                    }
-                },
-                "serve": {
-                    "builder": "@angular-devkit/build-angular:dev-server",
-                    "options": {
-                        "browserTarget": "ngx-toastf-showcase:build"
-                    },
-                    "configurations": {
-                        "production": {
-                            "browserTarget": "ngx-toastf-showcase:build:production"
-                        }
-                    }
-                },
-                "extract-i18n": {
-                    "builder": "@angular-devkit/build-angular:extract-i18n",
-                    "options": {
-                        "browserTarget": "ngx-toastf-showcase:build"
-                    }
-                },
-                "test": {
-                    "builder": "@angular-devkit/build-angular:karma",
-                    "options": {
-                        "main": "projects/ngx-toastf-showcase/src/test.ts",
-                        "polyfills": "projects/ngx-toastf-showcase/src/polyfills.ts",
-                        "tsConfig": "projects/ngx-toastf-showcase/tsconfig.spec.json",
-                        "karmaConfig": "projects/ngx-toastf-showcase/karma.conf.js",
-                        "assets": [
-                            "projects/ngx-toastf-showcase/src/favicon.ico",
-                            "projects/ngx-toastf-showcase/src/assets"
-                        ],
-                        "styles": [
-                            "projects/ngx-toastf-showcase/src/styles.scss"
-                        ],
-                        "scripts": []
-                    }
-                },
-                "lint": {
-                    "builder": "@angular-devkit/build-angular:tslint",
-                    "options": {
-                        "tsConfig": [
-                            "projects/ngx-toastf-showcase/tsconfig.app.json",
-                            "projects/ngx-toastf-showcase/tsconfig.spec.json",
-                            "projects/ngx-toastf-showcase/e2e/tsconfig.json"
-                        ],
-                        "exclude": [
-                            "**/node_modules/**"
-                        ]
-                    }
-                },
-                "e2e": {
-                    "builder": "@angular-devkit/build-angular:protractor",
-                    "options": {
-                        "protractorConfig": "projects/ngx-toastf-showcase/e2e/protractor.conf.js",
-                        "devServerTarget": "ngx-toastf-showcase:serve"
-                    },
-                    "configurations": {
-                        "production": {
-                            "devServerTarget": "ngx-toastf-showcase:serve:production"
-                        }
-                    }
-                }
+            "development": {}
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "projects/ngx-toastf/tsconfig.spec.json",
+            "runnerConfig": true,
+            "coverage": true,
+            "coverageInclude": ["projects/ngx-toastf/src/**/*.ts"],
+            "coverageExclude": ["projects/ngx-toastf/src/**/*.spec.ts"],
+            "coverageReporters": [
+              "lcovonly",
+              "html",
+              ["text-summary", { "file": "text-summary.txt" }]
+            ],
+            "coverageThresholds": {
+              "statements": 80,
+              "branches": 80,
+              "functions": 80,
+              "lines": 80
             }
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/ngx-toastf/**/*.ts",
+              "projects/ngx-toastf/**/*.html"
+            ]
+          }
         }
+      }
     },
-    "defaultProject": "ngx-toastf"
+    "ngx-toastf-showcase": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/ngx-toastf-showcase",
+      "sourceRoot": "projects/ngx-toastf-showcase/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "outputPath": { "base": "dist/ngx-toastf-showcase" },
+            "index": "projects/ngx-toastf-showcase/src/index.html",
+            "polyfills": ["zone.js"],
+            "tsConfig": "projects/ngx-toastf-showcase/tsconfig.app.json",
+            "preserveSymlinks": true,
+            "assets": [
+              "projects/ngx-toastf-showcase/src/favicon.ico",
+              "projects/ngx-toastf-showcase/src/assets"
+            ],
+            "styles": ["projects/ngx-toastf-showcase/src/styles.scss"],
+            "scripts": [],
+            "browser": "projects/ngx-toastf-showcase/src/main.ts"
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            },
+            "development": {
+              "extractLicenses": false,
+              "sourceMap": true,
+              "optimization": false,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "options": {
+            "buildTarget": "ngx-toastf-showcase:build:development"
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "ngx-toastf-showcase:build:production"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "projects/ngx-toastf-showcase/tsconfig.spec.json",
+            "runnerConfig": true,
+            "coverage": true,
+            "coverageInclude": ["projects/ngx-toastf-showcase/src/**/*.ts"],
+            "coverageExclude": [
+              "projects/ngx-toastf-showcase/src/**/*.spec.ts",
+              "projects/ngx-toastf-showcase/src/main.ts",
+              "projects/ngx-toastf-showcase/src/app/app.config.ts",
+              "projects/ngx-toastf-showcase/src/app/app.routes.ts"
+            ],
+            "coverageReporters": [
+              "lcovonly",
+              "html",
+              ["text-summary", { "file": "text-summary.txt" }]
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/ngx-toastf-showcase/**/*.ts",
+              "projects/ngx-toastf-showcase/**/*.html"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "analytics": false,
+    "schematicCollections": ["@angular-eslint/schematics"]
+  }
 }

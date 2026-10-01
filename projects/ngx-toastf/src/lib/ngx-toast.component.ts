@@ -1,113 +1,83 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, HostListener, AfterViewInit } from '@angular/core';
-import { translateYAnimation } from './ngx-toast-animations';
-import { NgToastConfig } from './ngx-toast-config.model';
-import { NgToastPosition } from './ngx-toast-position.enum';
-import { toastStates, positions, typeConfigClasses } from './ngx-toast-constant';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  afterNextRender,
+  computed,
+  effect,
+  inject,
+  input,
+  output,
+  signal,
+} from '@angular/core'
+import { TitleCasePipe } from '@angular/common'
+import { ResolvedNgxToastConfig } from './ngx-toast-config.model'
+import { NgxToastType } from './ngx-toast-type.enum'
+import { NGX_TOAST_TYPE_CLASS, NgxToastState } from './ngx-toast-constant'
 
 @Component({
-  selector: 'lib-ngx-toastf',
-  animations: [
-    translateYAnimation
-  ],
+  selector: 'ngx-toast',
+  imports: [TitleCasePipe],
   templateUrl: './ngx-toast.component.html',
-  styleUrls: ['./ngx-toast.component.scss']
+  styleUrl: './ngx-toast.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    role: 'status',
+    '[attr.aria-live]': "'polite'",
+    '[class]': 'hostClasses()',
+    '[style.transitionDuration.ms]': 'config().animationDuration',
+    '(click)': 'dismissOnTap()',
+  },
 })
-export class NgToastComponent implements OnInit, AfterViewInit {
+export class NgxToastComponent {
+  protected readonly NgxToastType = NgxToastType
 
-  @Input()
-  set messageValue(message: string) {
-    this.message = message;
-    this.state = toastStates.opened;
-  }
-  get messageValue(): string { return this.message; }
-  @Input()
-  set titleValue(title: string) {
-    this.title = title;
-  }
-  get titleValue(): string { return this.title; }
-  get stateValue(): string { return this.state; }
+  readonly message = input('')
+  readonly title = input('')
+  readonly config = input.required<ResolvedNgxToastConfig>()
 
-  @Input() config: NgToastConfig;
-  @Output() closed: EventEmitter<boolean> = new EventEmitter();
-  @ViewChild('toast', { static: false }) toast: ElementRef;
+  readonly closed = output<void>()
 
-  private state = toastStates.closed;
-  private message: string;
-  private title: string;
-  private componentRef: any;
-  private toastElementRef: HTMLElement;
-  private typeConfig = typeConfigClasses;
-  private bottomPositions = [
-    NgToastPosition.BottomCenter,
-    NgToastPosition.BottomFullWidth,
-    NgToastPosition.BottomLeft,
-    NgToastPosition.BottomRight
-  ];
+  private readonly destroyRef = inject(DestroyRef)
+  private readonly state = signal<NgxToastState>('opening')
 
-  constructor() { }
+  protected readonly hostClasses = computed(
+    () =>
+      `ngx-toast ${NGX_TOAST_TYPE_CLASS[this.config().type]} ngx-toast--${this.state()}`,
+  )
 
-  ngOnInit(): void {
-    if (this.config.autoClose) {
-      this.onAutoClose();
-    }
-  }
+  constructor() {
+    // Start in the 'opening' state for one frame so the CSS transition to 'open' animates in.
+    afterNextRender(() => {
+      this.state.set('open')
+    })
 
-  ngAfterViewInit(): void {
-    this.toastElementRef = this.toast.nativeElement;
-    this.componentRef = this.toastElementRef.parentNode;
-    this.setPosition();
-    this.setType();
-  }
-
-  @HostListener('click')
-  onClick(): void {
-    if (this.config.tapDismiss) {
-      this.closed.emit();
-    }
-  }
-
-  private onAutoClose() {
-    setTimeout(() => {
-      if (document.querySelector('toast-component')) {
-        this.closed.emit();
+    // Reacts only to config (not state), so closing stays a deterministic, immediate setTimeout.
+    effect((onCleanup) => {
+      const cfg = this.config()
+      if (!cfg.autoClose) {
+        return
       }
-    }, this.config.duration);
+      const timer = setTimeout(() => this.requestClose(), cfg.duration)
+      onCleanup(() => clearTimeout(timer))
+    })
   }
 
-  private setPosition() {
-    if (this.bottomPositions.indexOf(this.config.position) !== -1) {
-      this.componentRef.style.bottom = positions.none;
-    } else if (this.config.position === NgToastPosition.Center) {
-      this.componentRef.style.top = positions.halfSide;
-      this.componentRef.style.left = positions.halfSide;
-    } else {
-      this.componentRef.style.top = positions.none;
+  protected requestClose(): void {
+    if (this.state() === 'closing') {
+      return
     }
-    switch (this.config.position) {
-      case NgToastPosition.BottomCenter:
-      case NgToastPosition.TopCenter:
-        this.componentRef.style.left = positions.halfSide;
-        break;
-      case NgToastPosition.BottomFullWidth:
-      case NgToastPosition.TopFullWidth:
-        this.componentRef.style.left = positions.none;
-        this.componentRef.style.right = positions.none;
-        break;
-      case NgToastPosition.BottomLeft:
-      case NgToastPosition.TopLeft:
-        this.componentRef.style.left = positions.none;
-        break;
-      case NgToastPosition.BottomRight:
-      case NgToastPosition.TopRight:
-        this.componentRef.style.right = positions.none;
-        break;
-      default:
-        break;
+    this.state.set('closing')
+    const timer = setTimeout(
+      () => this.closed.emit(),
+      this.config().animationDuration,
+    )
+    this.destroyRef.onDestroy(() => clearTimeout(timer))
+  }
+
+  protected dismissOnTap(): void {
+    if (this.config().tapDismiss) {
+      this.requestClose()
     }
   }
-
-  private setType() {
-    this.toastElementRef.classList.add(this.typeConfig[this.config.type]);
-  }
-
 }
