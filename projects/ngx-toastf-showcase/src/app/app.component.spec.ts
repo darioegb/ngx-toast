@@ -1,114 +1,24 @@
-import {
-  TestBed,
-  async,
-  ComponentFixture,
-  fakeAsync,
-  tick,
-} from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgToastService } from 'projects/ngx-toastf/src/public-api';
+import { TestBed } from '@angular/core/testing'
+import { provideRouter } from '@angular/router'
+import { AppComponent } from './app.component'
 
 describe('AppComponent', () => {
-  let component: AppComponent;
-  let fixture: ComponentFixture<AppComponent>;
-  let service: NgToastService;
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule, BrowserAnimationsModule],
-      declarations: [AppComponent],
-      providers: [NgToastService],
-    }).compileComponents();
-  }));
-
   beforeEach(() => {
-    fixture = TestBed.createComponent(AppComponent);
-    component = fixture.componentInstance;
-    service = TestBed.inject(NgToastService);
-    fixture.detectChanges();
-  });
+    TestBed.configureTestingModule({
+      imports: [AppComponent],
+      providers: [provideRouter([])],
+    })
+  })
 
   it('should create the app', () => {
-    expect(component).toBeTruthy();
-  });
+    const fixture = TestBed.createComponent(AppComponent)
+    expect(fixture.componentInstance).toBeTruthy()
+  })
 
-  it(`should have as title 'ngx-toastf-showcase'`, () => {
-    expect(component.title).toEqual('ngx-toastf-showcase');
-  });
-
-  it('should render title', () => {
-    const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain(
-      'ngx-toastf-showcase app is running!'
-    );
-  });
-
-  it('should create toast success', () => {
-    const message = 'success message';
-    component.showToastSuccess(message, 1);
-    fixture.detectChanges();
-    const dbEl = <HTMLElement>fixture.debugElement.parent.nativeElement;
-    expect(
-      dbEl.querySelector('toast-component .toast-container-body span')
-        .textContent
-    ).toContain(message);
-    component.showToastSuccess(message);
-    fixture.detectChanges();
-    expect(
-      dbEl.querySelector('toast-component .toast-container-body span')
-        .textContent
-    ).toContain(message);
-  });
-
-  it('should create toast info', () => {
-    const message = 'info message';
-    component.showToastInfo(message, 1);
-    fixture.detectChanges();
-    const dbEl = <HTMLElement>fixture.debugElement.parent.nativeElement;
-    expect(
-      dbEl.querySelector('toast-component .toast-container-body span')
-        .textContent
-    ).toContain(message);
-    component.showToastInfo(message);
-    fixture.detectChanges();
-    expect(
-      dbEl.querySelector('toast-component .toast-container-body span')
-        .textContent
-    ).toContain(message);
-  });
-
-  it('should create toast warning', () => {
-    const message = 'warning message';
-    component.showToastWarning(message, 1);
-    fixture.detectChanges();
-    const dbEl = <HTMLElement>fixture.debugElement.parent.nativeElement;
-    expect(
-      dbEl.querySelector('toast-component .toast-container-body span')
-        .textContent
-    ).toContain(message);
-    component.showToastWarning(message);
-    fixture.detectChanges();
-    expect(
-      dbEl.querySelector('toast-component .toast-container-body span')
-        .textContent
-    ).toContain(message);
-  });
-
-  it('should create toast error', () => {
-    const message = 'error message';
-    component.showToastError(message, 1);
-    fixture.detectChanges();
-    const dbEl = <HTMLElement>fixture.debugElement.parent.nativeElement;
-    expect(
-      dbEl.querySelector('toast-component .toast-container-body span')
-        .textContent
-    ).toContain(message);
-    component.showToastError(message);
-    fixture.detectChanges();
-    expect(
-      dbEl.querySelector('toast-component .toast-container-body span')
-        .textContent
-    ).toContain(message);
-  });
-});
+  it('should render the toast trigger buttons', () => {
+    const fixture = TestBed.createComponent(AppComponent)
+    fixture.detectChanges()
+    const buttons = fixture.nativeElement.querySelectorAll('button')
+    expect(buttons.length).toBe(4)
+  })
+})

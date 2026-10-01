@@ -1,30 +1,43 @@
-import { Component } from '@angular/core';
-import { NgToastService } from '../../../ngx-toastf/src/lib/ngx-toast.service';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from '@angular/core'
+import { FormsModule } from '@angular/forms'
+import { NgxToastPosition, NgxToastService } from 'ngx-toastf'
 
 @Component({
   selector: 'app-root',
+  imports: [FormsModule],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrl: './app.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-  title = 'ngx-toastf-showcase';
-  constructor(
-    private toastService: NgToastService
-  ) { }
+  private readonly toastService = inject(NgxToastService)
 
-  showToastSuccess(value, duration = 3000): void {
-    this.toastService.showToastSuccess(value, { closeButton: true, title: 'test', duration });
+  protected readonly positions = Object.values(NgxToastPosition)
+  protected readonly message = signal('Message')
+  protected readonly position = signal(NgxToastPosition.TopRight)
+
+  protected showToastSuccess(): void {
+    this.toastService.showToastSuccess(this.message(), this.baseConfig())
   }
 
-  showToastInfo(value, duration = 3000): void {
-    this.toastService.showToastInfo(value, { closeButton: true, title: 'test', duration });
+  protected showToastInfo(): void {
+    this.toastService.showToastInfo(this.message(), this.baseConfig())
   }
 
-  showToastWarning(value, duration = 3000): void {
-    this.toastService.showToastWarning(value, { closeButton: true, title: 'test', duration });
+  protected showToastWarning(): void {
+    this.toastService.showToastWarning(this.message(), this.baseConfig())
   }
 
-  showToastError(value, duration = 3000): void {
-    this.toastService.showToastError(value, { closeButton: true, title: 'test', duration });
+  protected showToastError(): void {
+    this.toastService.showToastError(this.message(), this.baseConfig())
+  }
+
+  private baseConfig() {
+    return { title: 'Test', position: this.position() }
   }
 }

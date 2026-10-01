@@ -1,30 +1,34 @@
-import { NgToastPosition } from './ngx-toast-position.enum';
-import { NgToastType } from './ngx-toast-type.enum';
+import { NgxToastPosition } from './ngx-toast-position.enum'
+import { NgxToastType } from './ngx-toast-type.enum'
 
-export class NgToastConfig {
-    title?: string;
-    position?: NgToastPosition;
-    duration?: number;
-    type?: NgToastType;
-    closeButton?: boolean;
-    tapDismiss?: boolean;
-    autoClose?: boolean;
+export interface NgxToastConfig {
+  title?: string
+  position?: NgxToastPosition
+  duration?: number
+  closeButton?: boolean
+  tapDismiss?: boolean
+  autoClose?: boolean
+  animationDuration?: number
+}
 
-    constructor(options: {
-        title?: string,
-        position?: NgToastPosition,
-        duration?: number,
-        type?: NgToastType,
-        closeButton?: boolean,
-        tapDismiss?: boolean,
-        autoClose?: boolean,
-    } = {}) {
-        this.title = options.title || null;
-        this.position = options.position !== undefined ? options.position : NgToastPosition.TopRight;
-        this.duration = options.duration !== undefined ? options.duration : 3000;
-        this.type = options.type;
-        this.closeButton = options.closeButton || false;
-        this.tapDismiss = options.tapDismiss || false;
-        this.autoClose = options.autoClose !== undefined ? options.autoClose : true;
-    }
+export type ResolvedNgxToastConfig = Required<NgxToastConfig> & {
+  type: NgxToastType
+}
+
+export const DEFAULT_NGX_TOAST_CONFIG: Required<NgxToastConfig> = {
+  title: '',
+  position: NgxToastPosition.TopRight,
+  duration: 3000,
+  closeButton: false,
+  tapDismiss: false,
+  autoClose: true,
+  animationDuration: 200,
+}
+
+export function resolveToastConfig(
+  type: NgxToastType,
+  base: NgxToastConfig,
+  overrides: NgxToastConfig = {},
+): ResolvedNgxToastConfig {
+  return { ...DEFAULT_NGX_TOAST_CONFIG, ...base, ...overrides, type }
 }

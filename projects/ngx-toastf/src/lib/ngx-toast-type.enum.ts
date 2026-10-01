@@ -1,6 +1,6 @@
-export enum NgToastType {
-    Success = 0,
-    Info = 1,
-    Warning = 2,
-    Error = 3
+export enum NgxToastType {
+  Success = 'success',
+  Info = 'info',
+  Warning = 'warning',
+  Error = 'error',
 }
