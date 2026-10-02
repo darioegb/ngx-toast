@@ -10,15 +10,16 @@ Todas las opciones se pueden pasar por llamada como último argumento de `showTo
 o configurar como defaults globales una vez vía `provideNgxToast(withToastConfig({...}))` /
 `NgxToastModule.forRoot({...})`.
 
-| Opción              | Tipo    | Default    | Descripción                                        |
-| ------------------- | ------- | ---------- | -------------------------------------------------- |
-| `title`             | string  | `''`       | Título del mensaje del toast                       |
-| `position`          | enum    | `TopRight` | Posición del stack de toasts                       |
-| `duration`          | number  | `3000`     | Tiempo de vida en milisegundos (con `autoClose`)   |
-| `closeButton`       | boolean | `false`    | Mostrar botón de cerrar                            |
-| `tapDismiss`        | boolean | `false`    | Cerrar al hacer click en el toast                  |
-| `autoClose`         | boolean | `true`     | Cerrar automáticamente tras `duration`             |
-| `animationDuration` | number  | `200`      | Duración de la transición CSS al abrir/cerrar (ms) |
+| Opción              | Tipo    | Default    | Descripción                                            |
+| ------------------- | ------- | ---------- | ------------------------------------------------------ |
+| `title`             | string  | `''`       | Título del mensaje del toast                           |
+| `position`          | enum    | `TopRight` | Posición del stack de toasts                           |
+| `duration`          | number  | `3000`     | Tiempo de vida en milisegundos (con `autoClose`)       |
+| `closeButton`       | boolean | `false`    | Mostrar botón de cerrar                                |
+| `showIcon`          | boolean | `true`     | Mostrar el icono del tipo (success/info/warning/error) |
+| `tapDismiss`        | boolean | `false`    | Cerrar al hacer click en el toast                      |
+| `autoClose`         | boolean | `true`     | Cerrar automáticamente tras `duration`                 |
+| `animationDuration` | number  | `200`      | Duración de la transición CSS al abrir/cerrar (ms)     |
 
 ## `show()` genérico
 

@@ -5,6 +5,8 @@ title: Introduction
 sidebar_position: 1
 ---
 
+import LiveDemo from '@site/src/components/LiveDemo'
+
 # ngx-toastf
 
 [![CI](https://github.com/darioegb/ngx-toast/actions/workflows/ci.yml/badge.svg)](https://github.com/darioegb/ngx-toast/actions/workflows/ci.yml)
@@ -27,8 +29,9 @@ sidebar_position: 1
 
 ## Live Example
 
-You can see the library in action here:
-[ngx-toastf-example](https://stackblitz.com/edit/ngx-toastf-example).
+Try the library right here - this is the same showcase app that lives in the repo:
+
+<LiveDemo />
 
 ## How It Works
 

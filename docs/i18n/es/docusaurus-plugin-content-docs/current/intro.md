@@ -5,6 +5,8 @@ title: Introducción
 sidebar_position: 1
 ---
 
+import LiveDemo from '@site/src/components/LiveDemo'
+
 # ngx-toastf
 
 [![CI](https://github.com/darioegb/ngx-toast/actions/workflows/ci.yml/badge.svg)](https://github.com/darioegb/ngx-toast/actions/workflows/ci.yml)
@@ -28,8 +30,9 @@ no necesitás `ViewContainerRef` ni marcado en el template, solo inyectá un ser
 
 ## Ejemplo en Vivo
 
-Podés ver la librería en acción acá:
-[ngx-toastf-example](https://stackblitz.com/edit/ngx-toastf-example).
+Probá la librería acá mismo - es la misma app showcase que vive en el repo:
+
+<LiveDemo />
 
 ## Cómo Funciona
 

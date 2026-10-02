@@ -1,12 +1,256 @@
-<input [ngModel]="message()" (ngModelChange)="message.set($event)" />
-<select [ngModel]="position()" (ngModelChange)="position.set($event)">
-  @for (pos of positions; track pos) {
-    <option [value]="pos">{{ pos }}</option>
+@if (!embedded) {
+  <nav class="navbar app-navbar">
+    <div class="container">
+      <a
+        class="navbar-brand d-flex align-items-center gap-2 fw-bold"
+        [href]="links.docs"
+      >
+        <img src="assets/logo.svg" alt="" width="32" height="32" />
+        ngx-toastf
+      </a>
+      <div class="navbar-nav ms-auto flex-row align-items-center gap-3">
+        <a class="nav-link" [href]="links.docs" target="_blank" rel="noreferrer"
+          >Docs</a
+        >
+        <a
+          class="nav-link"
+          [href]="links.github"
+          target="_blank"
+          rel="noreferrer"
+          >GitHub</a
+        >
+        <a class="nav-link" [href]="links.npm" target="_blank" rel="noreferrer"
+          >npm</a
+        >
+        <button
+          type="button"
+          class="btn btn-link nav-link p-1 theme-toggle"
+          [attr.aria-label]="
+            theme() === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'
+          "
+          (click)="toggleTheme()"
+        >
+          @if (theme() === 'dark') {
+            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+              <path
+                fill="currentColor"
+                d="M12 9c1.65 0 3 1.35 3 3s-1.35 3-3 3-3-1.35-3-3 1.35-3 3-3m0-2c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58a.996.996 0 0 0-1.41 0 .996.996 0 0 0 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37a.996.996 0 0 0-1.41 0 .996.996 0 0 0 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0a.996.996 0 0 0 0-1.41l-1.06-1.06zm1.06-10.96a.996.996 0 0 0 0-1.41.996.996 0 0 0-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36a.996.996 0 0 0 0-1.41.996.996 0 0 0-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"
+              />
+            </svg>
+          } @else {
+            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+              <path
+                fill="currentColor"
+                d="M9.37 5.51c-.18.64-.27 1.31-.27 1.99 0 4.08 3.32 7.4 7.4 7.4.68 0 1.35-.09 1.99-.27a7.014 7.014 0 0 1-6.06 3.5c-3.86 0-7-3.14-7-7 0-2.5 1.34-4.82 3.5-6.06M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"
+              />
+            </svg>
+          }
+        </button>
+      </div>
+    </div>
+  </nav>
+}
+
+<main
+  class="py-3 py-sm-4"
+  [class.container]="!embedded"
+  [class.container-fluid]="embedded"
+>
+  @if (!embedded) {
+    <header class="mb-4">
+      <h1 class="h3 mb-1">Live showcase</h1>
+      <p class="text-body-secondary mb-0">
+        Tweak the options, fire a toast and copy the code that reproduces it.
+      </p>
+    </header>
   }
-</select>
-<div>
-  <button (click)="showToastSuccess()">Create success toast</button>
-  <button (click)="showToastInfo()">Create info toast</button>
-  <button (click)="showToastWarning()">Create warning toast</button>
-  <button (click)="showToastError()">Create error toast</button>
-</div>
+
+  <div class="row g-4">
+    <section class="col-lg-6" aria-labelledby="options-title">
+      <div class="card h-100 shadow-sm">
+        <div class="card-header fw-semibold" id="options-title">Options</div>
+        <div class="card-body vstack gap-3">
+          <div>
+            <label class="form-label" for="message">Message</label>
+            <input
+              id="message"
+              class="form-control"
+              [ngModel]="message()"
+              (ngModelChange)="message.set($event)"
+            />
+          </div>
+          <div>
+            <label class="form-label" for="title">Title</label>
+            <input
+              id="title"
+              class="form-control"
+              [ngModel]="title()"
+              (ngModelChange)="title.set($event)"
+            />
+          </div>
+
+          <fieldset>
+            <legend class="form-label fs-6">Position</legend>
+            <div
+              class="vstack gap-1"
+              role="radiogroup"
+              aria-label="Toast position"
+            >
+              @for (row of positionRows; track $index) {
+                <div class="hstack gap-1">
+                  @for (pos of row; track pos) {
+                    <button
+                      type="button"
+                      role="radio"
+                      class="btn btn-sm flex-fill text-capitalize"
+                      [class.btn-primary]="position() === pos"
+                      [class.btn-outline-secondary]="position() !== pos"
+                      [attr.aria-checked]="position() === pos"
+                      [attr.data-position]="pos"
+                      (click)="position.set(pos)"
+                    >
+                      {{ positionLabel(pos) }}
+                    </button>
+                  }
+                </div>
+              }
+            </div>
+          </fieldset>
+
+          <div class="row g-3">
+            <div class="col-6">
+              <label class="form-label" for="duration">Duration (ms)</label>
+              <input
+                id="duration"
+                type="number"
+                min="0"
+                step="500"
+                class="form-control"
+                [ngModel]="duration()"
+                (ngModelChange)="duration.set($event ?? 0)"
+              />
+            </div>
+            <div class="col-6">
+              <label class="form-label" for="animation">Animation (ms)</label>
+              <input
+                id="animation"
+                type="number"
+                min="0"
+                step="50"
+                class="form-control"
+                [ngModel]="animationDuration()"
+                (ngModelChange)="animationDuration.set($event ?? 0)"
+              />
+            </div>
+          </div>
+
+          <div class="d-flex flex-wrap column-gap-4 row-gap-2">
+            <div class="form-check form-switch">
+              <input
+                id="closeButton"
+                type="checkbox"
+                role="switch"
+                class="form-check-input"
+                [ngModel]="closeButton()"
+                (ngModelChange)="closeButton.set($event)"
+              />
+              <label class="form-check-label" for="closeButton"
+                >Close button</label
+              >
+            </div>
+            <div class="form-check form-switch">
+              <input
+                id="showIcon"
+                type="checkbox"
+                role="switch"
+                class="form-check-input"
+                [ngModel]="showIcon()"
+                (ngModelChange)="showIcon.set($event)"
+              />
+              <label class="form-check-label" for="showIcon">Show icon</label>
+            </div>
+            <div class="form-check form-switch">
+              <input
+                id="tapDismiss"
+                type="checkbox"
+                role="switch"
+                class="form-check-input"
+                [ngModel]="tapDismiss()"
+                (ngModelChange)="tapDismiss.set($event)"
+              />
+              <label class="form-check-label" for="tapDismiss"
+                >Tap to dismiss</label
+              >
+            </div>
+            <div class="form-check form-switch">
+              <input
+                id="autoClose"
+                type="checkbox"
+                role="switch"
+                class="form-check-input"
+                [ngModel]="autoClose()"
+                (ngModelChange)="autoClose.set($event)"
+              />
+              <label class="form-check-label" for="autoClose">Auto close</label>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer d-flex flex-wrap gap-2">
+          @for (trigger of triggers; track trigger.type) {
+            <button
+              type="button"
+              class="btn"
+              [class]="trigger.buttonClass"
+              [attr.data-type]="trigger.type"
+              (click)="show(trigger.type)"
+            >
+              {{ trigger.label }}
+            </button>
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="col-lg-6" aria-labelledby="code-title">
+      <div class="card h-100 shadow-sm">
+        <div
+          class="card-header d-flex align-items-center justify-content-between"
+        >
+          <span class="fw-semibold" id="code-title">Code</span>
+          <ul class="nav nav-pills nav-sm">
+            <li class="nav-item">
+              <button
+                type="button"
+                class="nav-link py-1"
+                [class.active]="activeTab() === 'usage'"
+                (click)="activeTab.set('usage')"
+              >
+                Usage
+              </button>
+            </li>
+            <li class="nav-item">
+              <button
+                type="button"
+                class="nav-link py-1"
+                [class.active]="activeTab() === 'setup'"
+                (click)="activeTab.set('setup')"
+              >
+                Setup
+              </button>
+            </li>
+          </ul>
+        </div>
+        <div class="card-body position-relative p-0">
+          <button
+            type="button"
+            class="btn btn-sm btn-outline-secondary copy-btn"
+            (click)="copySnippet()"
+          >
+            {{ copied() ? 'Copied!' : 'Copy' }}
+          </button>
+          <pre class="code mb-0"><code>{{ snippet() }}</code></pre>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>

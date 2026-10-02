@@ -75,7 +75,7 @@
             "tsConfig": "projects/ngx-toastf-showcase/tsconfig.app.json",
             "preserveSymlinks": true,
             "assets": [
-              "projects/ngx-toastf-showcase/src/favicon.ico",
+              "projects/ngx-toastf-showcase/src/favicon.svg",
               "projects/ngx-toastf-showcase/src/assets"
             ],
             "styles": ["projects/ngx-toastf-showcase/src/styles.scss"],

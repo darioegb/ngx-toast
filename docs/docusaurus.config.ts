@@ -8,6 +8,7 @@ const config: Config = {
     'A lightweight, standalone-first toast notification library for Angular',
   url: 'https://darioegb.github.io',
   baseUrl: '/ngx-toast/',
+  favicon: 'img/favicon.svg',
   organizationName: 'darioegb',
   projectName: 'ngx-toast',
   trailingSlash: false,
@@ -51,6 +52,10 @@ const config: Config = {
     },
     navbar: {
       title: 'ngx-toastf',
+      logo: {
+        alt: 'ngx-toastf logo',
+        src: 'img/logo.svg',
+      },
       items: [
         {
           type: 'docSidebar',
@@ -101,8 +106,8 @@ const config: Config = {
             },
             { label: 'GitHub', href: 'https://github.com/darioegb/ngx-toast' },
             {
-              label: 'Stackblitz Example',
-              href: 'https://stackblitz.com/edit/ngx-toastf-example',
+              label: 'Live Demo',
+              href: 'https://darioegb.github.io/ngx-toast/demo/',
             },
           ],
         },
