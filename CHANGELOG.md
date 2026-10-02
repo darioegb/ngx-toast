@@ -1,3 +1,9 @@
+## [2.1.0](https://github.com/darioegb/ngx-toast/compare/v2.0.0...v2.1.0) (2026-10-02)
+
+### Features
+
+* live demo in the docs, restyled showcase and showIcon option ([#8](https://github.com/darioegb/ngx-toast/issues/8)) ([ade7199](https://github.com/darioegb/ngx-toast/commit/ade719923003546064625ed9b5624446c517005f))
+
 ## [2.0.0](https://github.com/darioegb/ngx-toast/compare/v1.2.1...v2.0.0) (2026-10-01)
 
 ### ⚠ BREAKING CHANGES

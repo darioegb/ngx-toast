@@ -50,5 +50,6 @@ toastService.showToastSuccess('Guardado!')
 
 | ngx-toastf | Angular     |
 | ---------- | ----------- |
+| 2.1.0             | 20.x a 22.x |
 | 2.0.0      | 20.x a 22.x |
 | 1.2.1      | 9.x 8.x 7.x |
