@@ -94,9 +94,79 @@ describe('NgxToastComponent', () => {
     ).toContain('Heads Up')
   })
 
+  describe('icon', () => {
+    const icon = () => nativeElement().querySelector('.ngx-toast__icon')
+
+    it('should render the icon next to the title by default', () => {
+      fixture.componentRef.setInput('title', 'heads up')
+      setConfig()
+      expect(
+        nativeElement().querySelector('.ngx-toast__heading .ngx-toast__icon'),
+      ).toBeTruthy()
+    })
+
+    it('should render the icon next to the message when there is no title', () => {
+      fixture.componentRef.setInput('message', 'Hello world')
+      setConfig()
+      expect(
+        nativeElement().querySelector('.ngx-toast__body .ngx-toast__icon'),
+      ).toBeTruthy()
+      expect(nativeElement().querySelector('.ngx-toast__heading')).toBeNull()
+    })
+
+    it('should not render the icon with a title when showIcon is false', () => {
+      fixture.componentRef.setInput('title', 'heads up')
+      setConfig({ showIcon: false })
+      expect(icon()).toBeNull()
+      expect(
+        nativeElement().querySelector('.ngx-toast__title')?.textContent,
+      ).toContain('Heads Up')
+    })
+
+    it('should not render the icon without a title when showIcon is false', () => {
+      fixture.componentRef.setInput('message', 'Hello world')
+      setConfig({ showIcon: false })
+      expect(icon()).toBeNull()
+      expect(nativeElement().textContent).toContain('Hello world')
+    })
+
+    for (const type of [
+      NgxToastType.Success,
+      NgxToastType.Info,
+      NgxToastType.Warning,
+      NgxToastType.Error,
+    ]) {
+      it(`should render an svg for the ${type} type`, () => {
+        fixture.componentRef.setInput('title', 'heads up')
+        fixture.componentRef.setInput(
+          'config',
+          resolveToastConfig(type, {}, { autoClose: false }),
+        )
+        fixture.detectChanges()
+        expect(icon()?.querySelector('svg path')).toBeTruthy()
+      })
+    }
+  })
+
   it('should not render a close button by default', () => {
     setConfig()
     expect(fixture.nativeElement.querySelector('.ngx-toast__close')).toBeNull()
+  })
+
+  it('should place the close button in the header when there is a title', () => {
+    fixture.componentRef.setInput('title', 'heads up')
+    setConfig({ closeButton: true })
+    expect(
+      nativeElement().querySelector('.ngx-toast__header .ngx-toast__close'),
+    ).toBeTruthy()
+  })
+
+  it('should place the close button next to the message when there is no title', () => {
+    setConfig({ closeButton: true })
+    expect(nativeElement().querySelector('.ngx-toast__header')).toBeNull()
+    expect(
+      nativeElement().querySelector('.ngx-toast__body .ngx-toast__close'),
+    ).toBeTruthy()
   })
 
   it('should render and wire up the close button when enabled', () => {

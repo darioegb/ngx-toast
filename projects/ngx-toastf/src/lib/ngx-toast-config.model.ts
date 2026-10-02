@@ -6,6 +6,7 @@ export interface NgxToastConfig {
   position?: NgxToastPosition
   duration?: number
   closeButton?: boolean
+  showIcon?: boolean
   tapDismiss?: boolean
   autoClose?: boolean
   animationDuration?: number
@@ -20,6 +21,7 @@ export const DEFAULT_NGX_TOAST_CONFIG: Required<NgxToastConfig> = {
   position: NgxToastPosition.TopRight,
   duration: 3000,
   closeButton: false,
+  showIcon: true,
   tapDismiss: false,
   autoClose: true,
   animationDuration: 200,

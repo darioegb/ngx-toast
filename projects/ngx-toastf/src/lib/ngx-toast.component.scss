@@ -79,4 +79,18 @@
 
 .ngx-toast__body {
   margin-block-start: 0.25rem;
+
+  &.ngx-toast__body--inline {
+    display: flex;
+    align-items: center;
+    margin-block-start: 0;
+  }
+}
+
+.ngx-toast__message {
+  flex: 1 1 auto;
+}
+
+.ngx-toast__body .ngx-toast__close {
+  margin-inline-start: 8px;
 }
