@@ -10,14 +10,14 @@ import {
   output,
   signal,
 } from '@angular/core'
-import { TitleCasePipe } from '@angular/common'
+import { NgTemplateOutlet, TitleCasePipe } from '@angular/common'
 import { ResolvedNgxToastConfig } from './ngx-toast-config.model'
 import { NgxToastType } from './ngx-toast-type.enum'
 import { NGX_TOAST_TYPE_CLASS, NgxToastState } from './ngx-toast-constant'
 
 @Component({
   selector: 'ngx-toast',
-  imports: [TitleCasePipe],
+  imports: [NgTemplateOutlet, TitleCasePipe],
   templateUrl: './ngx-toast.component.html',
   styleUrl: './ngx-toast.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -44,6 +44,17 @@ export class NgxToastComponent {
   protected readonly hostClasses = computed(
     () =>
       `ngx-toast ${NGX_TOAST_TYPE_CLASS[this.config().type]} ngx-toast--${this.state()}`,
+  )
+
+  /** Without a title there is no heading to carry the icon, so it goes next to the message. */
+  protected readonly showBodyIcon = computed(
+    () => this.config().showIcon && !this.title(),
+  )
+
+  /** Without a title there is no header row, so the icon and close button share the message row. */
+  protected readonly inlineBody = computed(
+    () =>
+      !this.title() && (this.config().showIcon || this.config().closeButton),
   )
 
   constructor() {

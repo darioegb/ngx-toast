@@ -1,3 +1,66 @@
-.ngx-toast--success {
-  background-color: green !important;
+// Mirrors the Docusaurus theme in docs/src/css/custom.css and the Infima
+// surface/border/code colors, so the showcase looks like part of the docs.
+@use 'bootstrap/scss/bootstrap' with (
+  $primary: #2563eb,
+  $border-radius: 0.4rem
+);
+
+:root,
+[data-bs-theme='light'] {
+  --bs-body-bg: #fff;
+  --bs-body-color: #1c1e21;
+  --bs-border-color: #dadde1;
+  --bs-link-color: #2563eb;
+  --bs-link-hover-color: #1d4ed8;
+  --app-surface: #fff;
+  --app-surface-muted: #f5f6f7;
+  --app-code-bg: #f6f8fa;
+  --app-code-color: #393a34;
+}
+
+[data-bs-theme='dark'] {
+  --bs-body-bg: #1b1b1d;
+  --bs-body-color: #e3e3e3;
+  --bs-border-color: #444950;
+  --bs-primary: #60a5fa;
+  --bs-primary-rgb: 96, 165, 250;
+  --bs-link-color: #60a5fa;
+  --bs-link-hover-color: #93c5fd;
+  --app-surface: #242526;
+  --app-surface-muted: #2c2d2f;
+  --app-code-bg: #282a36;
+  --app-code-color: #f8f8f2;
+
+  .btn-primary {
+    --bs-btn-color: #0b1220;
+    --bs-btn-bg: #60a5fa;
+    --bs-btn-border-color: #60a5fa;
+    --bs-btn-hover-color: #0b1220;
+    --bs-btn-hover-bg: #93c5fd;
+    --bs-btn-hover-border-color: #93c5fd;
+    --bs-btn-active-color: #0b1220;
+    --bs-btn-active-bg: #93c5fd;
+    --bs-btn-active-border-color: #93c5fd;
+  }
+
+  .nav-pills {
+    --bs-nav-pills-link-active-color: #0b1220;
+    --bs-nav-pills-link-active-bg: #60a5fa;
+  }
+}
+
+.card {
+  --bs-card-bg: var(--app-surface);
+  --bs-card-cap-bg: var(--app-surface-muted);
+  --bs-card-border-color: var(--bs-border-color);
+}
+
+.app-navbar {
+  --bs-navbar-color: var(--bs-body-color);
+  --bs-navbar-hover-color: var(--bs-link-color);
+  --bs-navbar-brand-color: var(--bs-body-color);
+  --bs-navbar-brand-hover-color: var(--bs-body-color);
+  min-height: 3.75rem;
+  background-color: var(--app-surface);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
 }

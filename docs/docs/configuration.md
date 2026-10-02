@@ -16,6 +16,7 @@ global defaults once via `provideNgxToast(withToastConfig({...}))` /
 | `position`          | enum    | `TopRight` | Toast stack position                            |
 | `duration`          | number  | `3000`     | Time to live in milliseconds (when `autoClose`) |
 | `closeButton`       | boolean | `false`    | Show a close button                             |
+| `showIcon`          | boolean | `true`     | Show the type icon (success/info/warning/error) |
 | `tapDismiss`        | boolean | `false`    | Close when the toast itself is clicked          |
 | `autoClose`         | boolean | `true`     | Automatically close after `duration`            |
 | `animationDuration` | number  | `200`      | Open/close CSS transition duration (ms)         |

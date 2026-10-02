@@ -1,10 +1,25 @@
-body {
-  font-size: 20px;
+.code {
+  min-height: 100%;
+  padding: 2.75rem 1rem 1rem;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  color: var(--app-code-color);
+  background-color: var(--app-code-bg);
+  border-bottom-left-radius: var(--bs-card-inner-border-radius);
+  border-bottom-right-radius: var(--bs-card-inner-border-radius);
+  font-size: 0.8125rem;
+  line-height: 1.5;
 }
 
-div {
-  margin-block-start: 1rem;
-  button {
-    margin-right: 0.2rem;
-  }
+.copy-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 1;
+  --bs-btn-bg: var(--app-code-bg);
+}
+
+.theme-toggle {
+  display: inline-flex;
+  color: var(--bs-body-color);
 }

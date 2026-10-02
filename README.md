@@ -32,7 +32,7 @@ Latest version available for each version of Angular:
 ## Live Example
 
 You can check how this library works in the following link, on a live example:
-[ngx-toastf-example](https://stackblitz.com/edit/ngx-toastf-example)
+[ngx-toastf live demo](https://darioegb.github.io/ngx-toast/demo/)
 
 ## Installation
 
@@ -111,6 +111,7 @@ than replacing the existing one - multiple toasts (even in the same position) co
 | position          | enum    | `TopRight` | Toast stack position, see below               |
 | duration          | number  | `3000`     | Time to live in milliseconds (when autoClose) |
 | closeButton       | boolean | `false`    | Show a close button                           |
+| showIcon          | boolean | `true`     | Show the type icon                            |
 | tapDismiss        | boolean | `false`    | Close when the toast itself is clicked        |
 | autoClose         | boolean | `true`     | Automatically close after `duration`          |
 | animationDuration | number  | `200`      | Open/close CSS transition duration (ms)       |

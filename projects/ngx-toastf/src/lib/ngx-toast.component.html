@@ -1,51 +1,67 @@
-@if (title() || config().closeButton) {
+@if (title()) {
   <div class="ngx-toast__header">
-    @if (title()) {
-      <div class="ngx-toast__heading">
-        <span class="ngx-toast__icon" aria-hidden="true">
-          @switch (config().type) {
-            @case (NgxToastType.Success) {
-              <svg viewBox="0 0 24 24">
-                <path
-                  d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm-1.2 14.4-4-4 1.4-1.4 2.6 2.6 5.6-5.6 1.4 1.4-7 7Z"
-                />
-              </svg>
-            }
-            @case (NgxToastType.Info) {
-              <svg viewBox="0 0 24 24">
-                <path
-                  d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm1 15h-2v-6h2v6Zm0-8h-2V7h2v2Z"
-                />
-              </svg>
-            }
-            @case (NgxToastType.Warning) {
-              <svg viewBox="0 0 24 24">
-                <path d="M12 2 1 21h22L12 2Zm1 15h-2v-2h2v2Zm0-4h-2V9h2v4Z" />
-              </svg>
-            }
-            @case (NgxToastType.Error) {
-              <svg viewBox="0 0 24 24">
-                <path
-                  d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm3.5 12.1-1.4 1.4L12 13.4l-2.1 2.1-1.4-1.4L10.6 12 8.5 9.9l1.4-1.4L12 10.6l2.1-2.1 1.4 1.4L13.4 12l2.1 2.1Z"
-                />
-              </svg>
-            }
-          }
-        </span>
-        <h2 class="ngx-toast__title">{{ title() | titlecase }}</h2>
-      </div>
-    }
+    <div class="ngx-toast__heading">
+      @if (config().showIcon) {
+        <ng-container [ngTemplateOutlet]="icon" />
+      }
+      <h2 class="ngx-toast__title">{{ title() | titlecase }}</h2>
+    </div>
     @if (config().closeButton) {
-      <button
-        type="button"
-        class="ngx-toast__close"
-        (click)="requestClose()"
-        aria-label="Close"
-      >
-        &#x2716;
-      </button>
+      <ng-container [ngTemplateOutlet]="close" />
     }
   </div>
 }
 
-<div class="ngx-toast__body">{{ message() }}</div>
+<div class="ngx-toast__body" [class.ngx-toast__body--inline]="inlineBody()">
+  @if (showBodyIcon()) {
+    <ng-container [ngTemplateOutlet]="icon" />
+  }
+  <span class="ngx-toast__message">{{ message() }}</span>
+  @if (!title() && config().closeButton) {
+    <ng-container [ngTemplateOutlet]="close" />
+  }
+</div>
+
+<ng-template #close>
+  <button
+    type="button"
+    class="ngx-toast__close"
+    (click)="requestClose()"
+    aria-label="Close"
+  >
+    &#x2716;
+  </button>
+</ng-template>
+
+<ng-template #icon>
+  <span class="ngx-toast__icon" aria-hidden="true">
+    @switch (config().type) {
+      @case (NgxToastType.Success) {
+        <svg viewBox="0 0 24 24">
+          <path
+            d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm-1.2 14.4-4-4 1.4-1.4 2.6 2.6 5.6-5.6 1.4 1.4-7 7Z"
+          />
+        </svg>
+      }
+      @case (NgxToastType.Info) {
+        <svg viewBox="0 0 24 24">
+          <path
+            d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm1 15h-2v-6h2v6Zm0-8h-2V7h2v2Z"
+          />
+        </svg>
+      }
+      @case (NgxToastType.Warning) {
+        <svg viewBox="0 0 24 24">
+          <path d="M12 2 1 21h22L12 2Zm1 15h-2v-2h2v2Zm0-4h-2V9h2v4Z" />
+        </svg>
+      }
+      @case (NgxToastType.Error) {
+        <svg viewBox="0 0 24 24">
+          <path
+            d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm3.5 12.1-1.4 1.4L12 13.4l-2.1 2.1-1.4-1.4L10.6 12 8.5 9.9l1.4-1.4L12 10.6l2.1-2.1 1.4 1.4L13.4 12l2.1 2.1Z"
+          />
+        </svg>
+      }
+    }
+  </span>
+</ng-template>

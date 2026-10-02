@@ -47,3 +47,8 @@ Thumbs.db
 
 package-lock.json
 .scannerwork/*
+# docs: showcase demo is built in CI / via `pnpm docs:demo`
+/docs/static/demo
+
+# Angular CLI cache
+/.angular
