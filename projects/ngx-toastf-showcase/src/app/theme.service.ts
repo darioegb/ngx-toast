@@ -47,11 +47,15 @@ export class ThemeService {
     if (isTheme(fromQuery)) {
       return fromQuery
     }
-    const stored = this.read(
-      this.embedded ? DOCUSAURUS_STORAGE_KEY : OWN_STORAGE_KEY,
-    )
-    if (isTheme(stored)) {
-      return stored
+    // Standalone: the showcase's own toggle wins; otherwise follow the docs theme
+    // (same-origin Docusaurus color mode) so a new tab opens in sync.
+    const ownStored = this.embedded ? null : this.read(OWN_STORAGE_KEY)
+    if (isTheme(ownStored)) {
+      return ownStored
+    }
+    const docsStored = this.read(DOCUSAURUS_STORAGE_KEY)
+    if (isTheme(docsStored)) {
+      return docsStored
     }
     return this.window?.matchMedia?.('(prefers-color-scheme: dark)').matches
       ? 'dark'
