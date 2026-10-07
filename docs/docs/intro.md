@@ -49,6 +49,6 @@ Latest version available for each version of Angular:
 
 | ngx-toastf | Angular      |
 | ---------- | ------------ |
-| 2.1.0             | 20.x to 22.x |
+| 2.1.0      | 20.x to 22.x |
 | 2.0.0      | 20.x to 22.x |
 | 1.2.1      | 9.x 8.x 7.x  |

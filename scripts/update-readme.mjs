@@ -27,10 +27,15 @@ function addCompatibilityRow(filePath, angularRange) {
   if (content.includes(`| ${newVersion} `) || !tableHeader.test(content)) {
     return
   }
-  const updatedContent = content.replace(
-    tableHeader,
-    `$1| ${newVersion}             | ${angularRange} |\n`,
-  )
+  // Pad to the existing column widths so the row stays Prettier-formatted.
+  const [versionWidth, angularWidth] = content
+    .match(tableHeader)[1]
+    .split('\n')[1]
+    .split('|')
+    .slice(1, -1)
+    .map((cell) => cell.trim().length)
+  const row = `| ${newVersion.padEnd(versionWidth)} | ${angularRange.padEnd(angularWidth)} |\n`
+  const updatedContent = content.replace(tableHeader, `$1${row}`)
   writeFileSync(filePath, updatedContent)
 }
 
