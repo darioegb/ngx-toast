@@ -57,6 +57,17 @@ describe('ThemeService', () => {
     expect(create().theme()).toBe('dark')
   })
 
+  it('should follow the docs theme in a standalone tab (same origin)', () => {
+    localStorage.setItem('theme', 'dark')
+    expect(create().theme()).toBe('dark')
+  })
+
+  it('should prefer its own saved theme over the docs theme when standalone', () => {
+    localStorage.setItem('theme', 'dark')
+    localStorage.setItem('ngx-toastf-showcase-theme', 'light')
+    expect(create().theme()).toBe('light')
+  })
+
   it('should toggle the theme and persist it', () => {
     const service = create()
 
