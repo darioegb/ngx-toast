@@ -1,3 +1,9 @@
+<p align="center">
+  <a href="https://res.cloudinary.com/dyjeeqbka/image/upload/f_auto,q_auto/logo_y7ew0v">
+    <img src="https://res.cloudinary.com/dyjeeqbka/image/upload/f_auto,q_auto/logo_y7ew0v" alt="Plume UI logo" width="300" />
+  </a>
+</p>
+
 # NgxToastf
 
 ![CI](https://github.com/darioegb/ngx-toast/actions/workflows/ci.yml/badge.svg)
