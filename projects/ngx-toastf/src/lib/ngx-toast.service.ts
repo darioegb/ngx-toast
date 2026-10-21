@@ -2,27 +2,48 @@ import {
   ApplicationRef,
   EnvironmentInjector,
   Injectable,
+  OnDestroy,
   createComponent,
   inject,
 } from '@angular/core'
 import { DOCUMENT } from '@angular/common'
 import { NgxToastComponent } from './ngx-toast.component'
+import { NgxToastAnnouncer } from './ngx-toast-announcer.service'
 import { NgxToastType } from './ngx-toast-type.enum'
 import { NgxToastPosition } from './ngx-toast-position.enum'
-import { NgxToastConfig, resolveToastConfig } from './ngx-toast-config.model'
+import {
+  NgxToastConfig,
+  ResolvedNgxToastConfig,
+  resolveToastConfig,
+} from './ngx-toast-config.model'
 import { NGX_TOAST_STACK_POSITION_STYLE } from './ngx-toast-constant'
 import { NGX_TOAST_CONFIG } from './ngx-toast.token'
 
 @Injectable({
   providedIn: 'root',
 })
-export class NgxToastService {
+export class NgxToastService implements OnDestroy {
   private readonly appRef = inject(ApplicationRef)
   private readonly environmentInjector = inject(EnvironmentInjector)
   private readonly document = inject(DOCUMENT)
   private readonly defaultConfig = inject(NGX_TOAST_CONFIG)
+  private readonly announcer = inject(NgxToastAnnouncer)
 
   private readonly stacks = new Map<NgxToastPosition, HTMLElement>()
+  /** Visible toasts, oldest first, so Escape can dismiss the most recent one. */
+  private readonly openToasts: NgxToastComponent[] = []
+
+  private readonly onKeydown = (event: KeyboardEvent): void => {
+    if (event.key !== 'Escape' || event.defaultPrevented) {
+      return
+    }
+    const toast = [...this.openToasts].reverse().find((t) => !t.isClosing())
+    toast?.requestClose()
+  }
+
+  ngOnDestroy(): void {
+    this.document.removeEventListener('keydown', this.onKeydown)
+  }
 
   show(type: NgxToastType, message: string, config?: NgxToastConfig): void {
     this.createToast(type, message, config)
@@ -65,7 +86,20 @@ export class NgxToastService {
     // Render synchronously so the DOM reflects the toast as soon as showX() returns.
     toastRef.changeDetectorRef.detectChanges()
 
+    if (this.openToasts.length === 0) {
+      this.document.addEventListener('keydown', this.onKeydown)
+    }
+    this.openToasts.push(toastRef.instance)
+    this.announcer.announce(
+      this.announcement(resolved.type, message, resolved),
+      resolved.type === NgxToastType.Error ? 'assertive' : 'polite',
+    )
+
     toastRef.instance.closed.subscribe(() => {
+      this.openToasts.splice(this.openToasts.indexOf(toastRef.instance), 1)
+      if (this.openToasts.length === 0) {
+        this.document.removeEventListener('keydown', this.onKeydown)
+      }
       this.appRef.detachView(toastRef.hostView)
       toastRef.destroy()
       host.remove()
@@ -74,6 +108,15 @@ export class NgxToastService {
         this.stacks.delete(resolved.position)
       }
     })
+  }
+
+  private announcement(
+    type: NgxToastType,
+    message: string,
+    config: ResolvedNgxToastConfig,
+  ): string {
+    const title = config.title ? `${config.title}. ` : ''
+    return `${config.typeLabels[type]}: ${title}${message}`
   }
 
   private getStack(position: NgxToastPosition): HTMLElement {

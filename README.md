@@ -122,6 +122,9 @@ than replacing the existing one - multiple toasts (even in the same position) co
 | tapDismiss        | boolean | `false`    | Close when the toast itself is clicked        |
 | autoClose         | boolean | `true`     | Automatically close after `duration`          |
 | animationDuration | number  | `200`      | Open/close CSS transition duration (ms)       |
+| pauseOnHover      | boolean | `true`     | Pause auto close while hovered or focused     |
+| closeButtonLabel  | string  | `'Close'`  | Accessible name of the close button           |
+| typeLabels        | object  | see docs   | Text announced before the message, per type   |
 
 You can pass any of these per-call as the last argument to `showToastX()`/`show()`, or set global
 defaults once via `provideNgxToast(withToastConfig({...}))` / `NgxToastModule.forRoot({...})`.
@@ -156,6 +159,14 @@ Each toast's host element gets a base `ngx-toast` class plus a type modifier
   background-color: pink !important;
 }
 ```
+
+## Accessibility
+
+Toasts are announced by screen readers (errors assertively, the rest politely, always prefixed with
+their type), the auto close timer pauses on hover and focus, `Escape` dismisses the most recent
+toast, motion is reduced for `prefers-reduced-motion`, and the default colors meet WCAG AA contrast.
+See the [accessibility guide](https://darioegb.github.io/ngx-toast/guides/accessibility)
+for details.
 
 ## Migration from 1.x
 

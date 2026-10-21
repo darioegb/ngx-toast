@@ -20,6 +20,9 @@ o configurar como defaults globales una vez vía `provideNgxToast(withToastConfi
 | `tapDismiss`        | boolean | `false`    | Cerrar al hacer click en el toast                      |
 | `autoClose`         | boolean | `true`     | Cerrar automáticamente tras `duration`                 |
 | `animationDuration` | number  | `200`      | Duración de la transición CSS al abrir/cerrar (ms)     |
+| `pauseOnHover`      | boolean | `true`     | Pausar `autoClose` con hover o foco                    |
+| `closeButtonLabel`  | string  | `'Close'`  | Nombre accesible del botón de cerrar                   |
+| `typeLabels`        | object  | ver guía   | Texto anunciado antes del mensaje, por tipo            |
 
 ## `show()` genérico
 

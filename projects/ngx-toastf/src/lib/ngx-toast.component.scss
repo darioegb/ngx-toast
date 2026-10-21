@@ -24,18 +24,42 @@
     transform: translateY(-8px);
   }
 
+  // Every type/text pair meets the WCAG AA 4.5:1 contrast ratio.
   &.ngx-toast--success {
-    background-color: mediumseagreen;
+    background-color: #2e7d32;
   }
   &.ngx-toast--info {
-    background-color: dodgerblue;
+    background-color: #1e6fd9;
   }
   &.ngx-toast--warning {
-    background-color: orange;
+    background-color: #ffb300;
+    color: #1a1a1a;
   }
   &.ngx-toast--error {
-    background-color: red;
+    background-color: #d32f2f;
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition-property: opacity;
+
+    &,
+    &.ngx-toast--open,
+    &.ngx-toast--closing {
+      transform: none;
+    }
+  }
+}
+
+.ngx-toast__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }
 
 .ngx-toast__header {
@@ -67,14 +91,29 @@
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 1rem;
-  color: #ffffff;
-  font-weight: lighter;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  // 24x24px minimum target size (WCAG 2.5.8)
+  min-width: 24px;
+  min-height: 24px;
+  color: inherit;
   background-color: transparent;
-  padding: 0;
+  padding: 4px;
   border: none;
+  border-radius: 2px;
   cursor: pointer;
+
+  svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+  }
+
+  &:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
 }
 
 .ngx-toast__body {

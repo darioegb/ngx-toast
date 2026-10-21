@@ -8,9 +8,10 @@ describe('NgxToastService', () => {
   let service: NgxToastService
 
   afterEach(() => {
+    vi.useRealTimers()
     document
-      .querySelectorAll('.ngx-toast-stack')
-      .forEach((stack) => stack.remove())
+      .querySelectorAll('.ngx-toast-stack, .ngx-toast-announcer')
+      .forEach((element) => element.remove())
   })
 
   beforeEach(() => {
@@ -102,5 +103,139 @@ describe('NgxToastService', () => {
     expect(document.querySelector('.ngx-toast__title')?.textContent).toContain(
       'Notice',
     )
+  })
+
+  describe('accessibility', () => {
+    const region = (politeness: string) =>
+      document.querySelector(`.ngx-toast-announcer[aria-live="${politeness}"]`)
+
+    it('should announce a toast politely, prefixed with its type', () => {
+      vi.useFakeTimers()
+      service.showToastSuccess('Saved', { autoClose: false })
+      vi.advanceTimersByTime(100)
+
+      expect(region('polite')?.textContent).toBe('Success: Saved')
+    })
+
+    it('should announce errors assertively', () => {
+      vi.useFakeTimers()
+      service.showToastError('Boom', { autoClose: false })
+      vi.advanceTimersByTime(100)
+
+      expect(region('assertive')?.textContent).toBe('Error: Boom')
+      expect(region('polite')).toBeNull()
+    })
+
+    it('should include the title and honor custom type labels', () => {
+      vi.useFakeTimers()
+      service.showToastWarning('Disk almost full', {
+        title: 'Storage',
+        autoClose: false,
+        typeLabels: { warning: 'Aviso' },
+      })
+      vi.advanceTimersByTime(100)
+
+      expect(region('polite')?.textContent).toBe(
+        'Aviso: Storage. Disk almost full',
+      )
+    })
+
+    it('should keep announcements made close together', () => {
+      vi.useFakeTimers()
+      service.showToastInfo('one', { autoClose: false })
+      service.showToastInfo('two', { autoClose: false })
+      vi.advanceTimersByTime(100)
+
+      expect(region('polite')?.childElementCount).toBe(2)
+    })
+
+    it('should clear an announcement after a while', () => {
+      vi.useFakeTimers()
+      service.showToastInfo('one', { autoClose: false })
+      vi.advanceTimersByTime(100 + 5000)
+
+      expect(region('polite')?.childElementCount).toBe(0)
+    })
+
+    describe('Escape key', () => {
+      function pressEscape(): void {
+        document.dispatchEvent(
+          new KeyboardEvent('keydown', { key: 'Escape', cancelable: true }),
+        )
+      }
+
+      it('should dismiss the most recent toast, one per press', () => {
+        vi.useFakeTimers()
+        service.showToastSuccess('first', {
+          autoClose: false,
+          animationDuration: 0,
+        })
+        service.showToastInfo('second', {
+          autoClose: false,
+          animationDuration: 0,
+        })
+
+        pressEscape()
+        vi.advanceTimersByTime(0)
+        expect(document.querySelector('.ngx-toast--info')).toBeNull()
+        expect(document.querySelector('.ngx-toast--success')).not.toBeNull()
+
+        pressEscape()
+        vi.advanceTimersByTime(0)
+        expect(document.querySelector('.ngx-toast--success')).toBeNull()
+      })
+
+      it('should skip a toast that is already closing', () => {
+        vi.useFakeTimers()
+        service.showToastSuccess('first', {
+          autoClose: false,
+          animationDuration: 100,
+        })
+        service.showToastInfo('second', {
+          autoClose: false,
+          animationDuration: 100,
+        })
+
+        pressEscape()
+        pressEscape()
+        vi.advanceTimersByTime(100)
+
+        expect(document.querySelector('.ngx-toast--info')).toBeNull()
+        expect(document.querySelector('.ngx-toast--success')).toBeNull()
+      })
+
+      it('should ignore other keys and handled events', () => {
+        vi.useFakeTimers()
+        service.showToastSuccess('stay', {
+          autoClose: false,
+          animationDuration: 0,
+        })
+
+        document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }))
+        const handled = new KeyboardEvent('keydown', {
+          key: 'Escape',
+          cancelable: true,
+        })
+        handled.preventDefault()
+        document.dispatchEvent(handled)
+        vi.advanceTimersByTime(0)
+
+        expect(document.querySelector('.ngx-toast--success')).not.toBeNull()
+      })
+
+      it('should stop listening once every toast is closed', () => {
+        vi.useFakeTimers()
+        const remove = vi.spyOn(document, 'removeEventListener')
+        service.showToastSuccess('bye', {
+          autoClose: false,
+          animationDuration: 0,
+        })
+
+        pressEscape()
+        vi.advanceTimersByTime(0)
+
+        expect(remove).toHaveBeenCalledWith('keydown', expect.any(Function))
+      })
+    })
   })
 })
