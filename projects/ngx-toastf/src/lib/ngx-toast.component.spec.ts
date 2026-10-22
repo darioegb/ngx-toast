@@ -226,4 +226,147 @@ describe('NgxToastComponent', () => {
     vi.advanceTimersByTime(1000)
     expect(closedSpy).not.toHaveBeenCalled()
   })
+
+  describe('accessibility', () => {
+    it('should not be a live region itself, the announcer handles that', () => {
+      setConfig()
+      expect(nativeElement().getAttribute('role')).toBeNull()
+      expect(nativeElement().getAttribute('aria-live')).toBeNull()
+    })
+
+    it('should expose the toast type to assistive technology', () => {
+      fixture.componentRef.setInput('message', 'Saved')
+      setConfig()
+      expect(
+        nativeElement().querySelector('.ngx-toast__sr-only')?.textContent,
+      ).toBe('Success:')
+    })
+
+    it('should use a custom type label', () => {
+      setConfig({ typeLabels: { success: 'Éxito' } })
+      expect(
+        nativeElement().querySelector('.ngx-toast__sr-only')?.textContent,
+      ).toBe('Éxito:')
+    })
+
+    it('should not render the title as a heading', () => {
+      fixture.componentRef.setInput('title', 'heads up')
+      setConfig()
+      expect(nativeElement().querySelector('h1, h2, h3, h4, h5, h6')).toBeNull()
+    })
+
+    it('should label the close button and hide its glyph', () => {
+      setConfig({ closeButton: true })
+      const button = nativeElement().querySelector('.ngx-toast__close')
+      expect(button?.getAttribute('aria-label')).toBe('Close')
+      expect(button?.querySelector('svg')?.getAttribute('aria-hidden')).toBe(
+        'true',
+      )
+    })
+
+    it('should use a custom close button label', () => {
+      setConfig({ closeButton: true, closeButtonLabel: 'Cerrar' })
+      expect(
+        nativeElement()
+          .querySelector('.ngx-toast__close')
+          ?.getAttribute('aria-label'),
+      ).toBe('Cerrar')
+    })
+  })
+
+  describe('pause on hover and focus', () => {
+    function autoCloseSetup() {
+      const closedSpy = vi.fn()
+      component.closed.subscribe(closedSpy)
+      vi.useFakeTimers()
+      return closedSpy
+    }
+
+    function focusOut(relatedTarget: EventTarget | null): void {
+      nativeElement().dispatchEvent(
+        new FocusEvent('focusout', { relatedTarget, bubbles: true }),
+      )
+    }
+
+    it('should pause the auto close timer while hovered', () => {
+      const closedSpy = autoCloseSetup()
+      setConfig({ autoClose: true, duration: 1000, animationDuration: 0 })
+
+      vi.advanceTimersByTime(600)
+      nativeElement().dispatchEvent(new MouseEvent('mouseenter'))
+      vi.advanceTimersByTime(10_000)
+      expect(closedSpy).not.toHaveBeenCalled()
+
+      nativeElement().dispatchEvent(new MouseEvent('mouseleave'))
+      vi.advanceTimersByTime(399)
+      expect(closedSpy).not.toHaveBeenCalled()
+      vi.advanceTimersByTime(2)
+      expect(closedSpy).toHaveBeenCalled()
+    })
+
+    it('should pause the auto close timer while focused', () => {
+      const closedSpy = autoCloseSetup()
+      setConfig({ autoClose: true, duration: 1000, animationDuration: 0 })
+
+      nativeElement().dispatchEvent(new FocusEvent('focusin'))
+      vi.advanceTimersByTime(10_000)
+      expect(closedSpy).not.toHaveBeenCalled()
+
+      focusOut(null)
+      vi.advanceTimersByTime(1001)
+      expect(closedSpy).toHaveBeenCalled()
+    })
+
+    it('should stay paused when focus moves inside the toast', () => {
+      const closedSpy = autoCloseSetup()
+      setConfig({
+        autoClose: true,
+        duration: 1000,
+        animationDuration: 0,
+        closeButton: true,
+      })
+      const button = nativeElement().querySelector('.ngx-toast__close')
+
+      nativeElement().dispatchEvent(new FocusEvent('focusin'))
+      focusOut(button)
+      vi.advanceTimersByTime(10_000)
+
+      expect(closedSpy).not.toHaveBeenCalled()
+    })
+
+    it('should stay paused while still hovered after losing focus', () => {
+      const closedSpy = autoCloseSetup()
+      setConfig({ autoClose: true, duration: 1000, animationDuration: 0 })
+
+      nativeElement().dispatchEvent(new MouseEvent('mouseenter'))
+      nativeElement().dispatchEvent(new FocusEvent('focusin'))
+      focusOut(null)
+      vi.advanceTimersByTime(1001)
+      expect(closedSpy).not.toHaveBeenCalled()
+    })
+
+    it('should not pause when pauseOnHover is disabled', () => {
+      const closedSpy = autoCloseSetup()
+      setConfig({
+        autoClose: true,
+        duration: 1000,
+        animationDuration: 0,
+        pauseOnHover: false,
+      })
+
+      nativeElement().dispatchEvent(new MouseEvent('mouseenter'))
+      vi.advanceTimersByTime(1001)
+      expect(closedSpy).toHaveBeenCalled()
+    })
+
+    it('should ignore hover when autoClose is disabled', () => {
+      const closedSpy = autoCloseSetup()
+      setConfig({ autoClose: false })
+
+      nativeElement().dispatchEvent(new MouseEvent('mouseenter'))
+      nativeElement().dispatchEvent(new MouseEvent('mouseleave'))
+      vi.advanceTimersByTime(10_000)
+      expect(closedSpy).not.toHaveBeenCalled()
+    })
+  })
 })

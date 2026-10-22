@@ -22,11 +22,13 @@ import { NGX_TOAST_TYPE_CLASS, NgxToastState } from './ngx-toast-constant'
   styleUrl: './ngx-toast.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    role: 'status',
-    '[attr.aria-live]': "'polite'",
     '[class]': 'hostClasses()',
     '[style.transitionDuration.ms]': 'config().animationDuration',
     '(click)': 'dismissOnTap()',
+    '(mouseenter)': 'onHoverChange(true)',
+    '(mouseleave)': 'onHoverChange(false)',
+    '(focusin)': 'onFocusChange(true)',
+    '(focusout)': 'onFocusOut($event)',
   },
 })
 export class NgxToastComponent {
@@ -41,9 +43,19 @@ export class NgxToastComponent {
   private readonly destroyRef = inject(DestroyRef)
   private readonly state = signal<NgxToastState>('opening')
 
+  private autoCloseTimer: ReturnType<typeof setTimeout> | undefined
+  private autoCloseStartedAt = 0
+  private autoCloseRemaining = 0
+  private hovered = false
+  private focused = false
+
   protected readonly hostClasses = computed(
     () =>
       `ngx-toast ${NGX_TOAST_TYPE_CLASS[this.config().type]} ngx-toast--${this.state()}`,
+  )
+
+  protected readonly typeLabel = computed(
+    () => this.config().typeLabels[this.config().type],
   )
 
   /** Without a title there is no heading to carry the icon, so it goes next to the message. */
@@ -66,15 +78,15 @@ export class NgxToastComponent {
     // Reacts only to config (not state), so closing stays a deterministic, immediate setTimeout.
     effect((onCleanup) => {
       const cfg = this.config()
-      if (!cfg.autoClose) {
-        return
+      if (cfg.autoClose) {
+        this.startAutoCloseTimer(cfg.duration)
       }
-      const timer = setTimeout(() => this.requestClose(), cfg.duration)
-      onCleanup(() => clearTimeout(timer))
+      onCleanup(() => this.stopAutoCloseTimer())
     })
   }
 
-  protected requestClose(): void {
+  /** Starts the close animation, after which `closed` is emitted. */
+  requestClose(): void {
     if (this.state() === 'closing') {
       return
     }
@@ -86,9 +98,58 @@ export class NgxToastComponent {
     this.destroyRef.onDestroy(() => clearTimeout(timer))
   }
 
+  isClosing(): boolean {
+    return this.state() === 'closing'
+  }
+
+  protected onHoverChange(hovered: boolean): void {
+    this.hovered = hovered
+    this.syncAutoCloseTimer()
+  }
+
+  protected onFocusChange(focused: boolean): void {
+    this.focused = focused
+    this.syncAutoCloseTimer()
+  }
+
+  protected onFocusOut(event: FocusEvent): void {
+    const host = event.currentTarget as HTMLElement
+    // Focus moving between elements inside the toast (e.g. onto the close button) is not leaving it.
+    if (!host.contains(event.relatedTarget as Node | null)) {
+      this.onFocusChange(false)
+    }
+  }
+
   protected dismissOnTap(): void {
     if (this.config().tapDismiss) {
       this.requestClose()
     }
+  }
+
+  /** Pauses the countdown while hovered/focused (WCAG 2.2.1), resuming with the time left. */
+  private syncAutoCloseTimer(): void {
+    const cfg = this.config()
+    if (!cfg.autoClose || !cfg.pauseOnHover || this.isClosing()) {
+      return
+    }
+    if (this.hovered || this.focused) {
+      if (this.autoCloseTimer !== undefined) {
+        this.autoCloseRemaining -= Date.now() - this.autoCloseStartedAt
+        this.stopAutoCloseTimer()
+      }
+    } else if (this.autoCloseTimer === undefined) {
+      this.startAutoCloseTimer(this.autoCloseRemaining)
+    }
+  }
+
+  private startAutoCloseTimer(ms: number): void {
+    this.autoCloseRemaining = ms
+    this.autoCloseStartedAt = Date.now()
+    this.autoCloseTimer = setTimeout(() => this.requestClose(), ms)
+  }
+
+  private stopAutoCloseTimer(): void {
+    clearTimeout(this.autoCloseTimer)
+    this.autoCloseTimer = undefined
   }
 }

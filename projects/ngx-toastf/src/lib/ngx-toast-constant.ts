@@ -10,6 +10,14 @@ export const NGX_TOAST_TYPE_CLASS: Record<NgxToastType, string> = {
   [NgxToastType.Error]: 'ngx-toast--error',
 }
 
+/** Announced to assistive technology before the message, since the type is otherwise only conveyed by color and icon. */
+export const NGX_TOAST_DEFAULT_TYPE_LABELS: Record<NgxToastType, string> = {
+  [NgxToastType.Success]: 'Success',
+  [NgxToastType.Info]: 'Info',
+  [NgxToastType.Warning]: 'Warning',
+  [NgxToastType.Error]: 'Error',
+}
+
 // Inline since the stack element lives outside Angular's view (appended to <body>), not scoped CSS.
 export const NGX_TOAST_STACK_POSITION_STYLE: Record<
   NgxToastPosition,
