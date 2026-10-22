@@ -1,3 +1,9 @@
+## [2.2.0](https://github.com/darioegb/ngx-toast/compare/v2.1.0...v2.2.0) (2026-10-22)
+
+### Features
+
+* improve toast accessibility ([#10](https://github.com/darioegb/ngx-toast/issues/10)) ([b6d6705](https://github.com/darioegb/ngx-toast/commit/b6d6705e866b7272413a3174c72ff83b0ba77190))
+
 ## [2.1.0](https://github.com/darioegb/ngx-toast/compare/v2.0.0...v2.1.0) (2026-10-02)
 
 ### Features
