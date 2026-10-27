@@ -1,3 +1,9 @@
+## [2.2.1](https://github.com/darioegb/ngx-toast/compare/v2.2.0...v2.2.1) (2026-10-27)
+
+### Bug Fixes
+
+* **ci:** publish to npm with trusted publishing and provenance ([d307711](https://github.com/darioegb/ngx-toast/commit/d3077110f6d49315a04fb9e6f763ade078d1c409))
+
 ## [2.2.0](https://github.com/darioegb/ngx-toast/compare/v2.1.0...v2.2.0) (2026-10-22)
 
 ### Features
