@@ -102,8 +102,8 @@ jobs:
       - run: pnpm exec semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          # Publishing authenticates via npm trusted publishing (OIDC, id-token: write) - no npm token.
+          NPM_CONFIG_PROVENANCE: 'true'
           # @semantic-release/git's release commit body embeds the full changelog notes
           # (long markdown links), which fails commitlint's line-length rules via the
           # local commit-msg husky hook meant to police human-authored commits, not this
